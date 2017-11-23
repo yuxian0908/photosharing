@@ -1,3 +1,6 @@
+// Set the 'NODE_ENV' variable
+process.env.NODE_ENV = process.env.NODE_ENV || 'development';
+
 var config = require('./config/config'),
     express = require('express'),
     path = require('path'),
@@ -10,10 +13,12 @@ var config = require('./config/config'),
     flash = require('connect-flash'),
     compress = require('compression');
 
-var index = require('./app/routes/index');
-var users = require('./app/routes/users');
+var mongoose = require('./config/mongoose');
 
 var app = express();
+
+// Create a new Mongoose connection instance
+var db = mongoose();
 
 // view engine setup
 app.set('views', path.join(__dirname, './app/views'));
@@ -50,8 +55,13 @@ app.use(cookieParser());
 // 設定靜態檔案路徑
 app.use(express.static(path.join(__dirname, 'public')));
 
+// set router
+var index = require('./app/routes/index.server.route');
+var admin = require('./app/routes/admin.server.route');
 app.use('/', index);
-app.use('/users', users);
+app.use('/_admin', admin);
+
+
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
@@ -70,5 +80,8 @@ app.use(function(err, req, res, next) {
   res.status(err.status || 500);
   res.render('error');
 });
+
+
+
 
 module.exports = app;
