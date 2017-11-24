@@ -11,9 +11,11 @@ var config = require('./config/config'),
     bodyParser = require('body-parser'),
     methodOverride = require('method-override'),
     flash = require('connect-flash'),
-    compress = require('compression');
+    compress = require('compression'),
+    Passport = require('passport');
 
-var mongoose = require('./config/mongoose');
+var mongoose = require('./config/mongoose'),
+    passport = require('./config/passport');
 
 var app = express();
 
@@ -54,6 +56,11 @@ app.use(cookieParser());
 
 // 設定靜態檔案路徑
 app.use(express.static(path.join(__dirname, 'public')));
+
+// Configure the Passport middleware
+var passport = passport();
+app.use(Passport.initialize());
+app.use(Passport.session());
 
 // set router
 var index = require('./app/routes/index.server.route');

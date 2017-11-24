@@ -12,7 +12,7 @@ module.exports = function() {
 	var db = mongoose.connect(config.db, { useMongoClient: true });
 
 	// Load the application models 
-	// require('../app/models/user.server.model');
+	require('../app/models/user.server.model');
 	// require('../app/models/article.server.model');
 	// require('../app/models/reser.server.model')
 
