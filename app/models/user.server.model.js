@@ -4,6 +4,7 @@
 // Load the module dependencies
 var mongoose = require('mongoose'),
 	bcrypt = require('bcrypt-nodejs'),
+	crypto = require('crypto'),
 	Schema = mongoose.Schema;
 
 // Define a new 'UserSchema'

@@ -1,0 +1,12 @@
+extends layout
+
+block content
+    p #{user}
+    script(type='text/javascript').
+        window.user= #{user};
+    h1= title
+    p Welcome to _admin
+    a(href='/_admin/signup') Signup
+    a(href='/_admin/signin') Signin
+
+ 
