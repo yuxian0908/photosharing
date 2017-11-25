@@ -2,13 +2,14 @@ module.exports = function(grunt) {
 // Project configuration.
 grunt.initConfig({
     clean: {
-        js: ['public/users.js','public/users.min.js']
+        all: ['public/users.js','public/users.min.js'],
+        js: ['public/users.js'],        
     },
     concat: {
         options: {
             separator: ';',
         },
-        dist: {
+        users: {
             src: ['template/users/users.client.module.js','template/users/services/*','template/users/config/*','template/users/controllers/*'],
             dest: 'public/users.js',
         },
@@ -16,7 +17,7 @@ grunt.initConfig({
     uglify: {
         my_target: {
             files: {
-                'public/users.min.js': ['public/users.js']
+                'public/users.min.js': ['public/users.js'],
             }
         }
     }
@@ -28,6 +29,6 @@ grunt.initConfig({
   grunt.loadNpmTasks('grunt-contrib-uglify');
   
   // Default task(s).
-  grunt.registerTask('default', ['clean','concat','uglify']);
+  grunt.registerTask('default', ['clean:all','concat','uglify','clean:js']);
   
   };
