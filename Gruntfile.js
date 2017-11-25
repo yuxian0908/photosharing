@@ -1,21 +1,33 @@
 module.exports = function(grunt) {
 // Project configuration.
 grunt.initConfig({
-    concat: {
-      options: {
-        separator: ';',
-      },
-      dist: {
-        src: ['public/users/users.client.module.js','public/users/services/*','public/users/config/*','public/users/controllers/*'],
-        dest: 'public/users.js',
-      },
+    clean: {
+        js: ['public/users.js','public/users.min.js']
     },
+    concat: {
+        options: {
+            separator: ';',
+        },
+        dist: {
+            src: ['template/users/users.client.module.js','template/users/services/*','template/users/config/*','template/users/controllers/*'],
+            dest: 'public/users.js',
+        },
+    },
+    uglify: {
+        my_target: {
+            files: {
+                'public/users.min.js': ['public/users.js']
+            }
+        }
+    }
   });
   
-  // Load the plugin that provides the "uglify" task.
+  // Load the plugin that provides the tasks.
   grunt.loadNpmTasks('grunt-contrib-concat');
+  grunt.loadNpmTasks('grunt-contrib-clean');
+  grunt.loadNpmTasks('grunt-contrib-uglify');
   
   // Default task(s).
-  grunt.registerTask('default', ['concat']);
+  grunt.registerTask('default', ['clean','concat','uglify']);
   
   };
