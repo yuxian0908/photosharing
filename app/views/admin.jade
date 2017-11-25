@@ -1,12 +1,14 @@
 extends layout
 
+block headcontent
+    base(href='/')
+
+
 block content
-    p #{user}
     script(type='text/javascript').
-        window.user= #{user};
+        window.user= !{user};
     h1= title
     p Welcome to _admin
-    a(href='/_admin/signup') Signup
-    a(href='/_admin/signin') Signin
+    section(ng-view='')
 
  

@@ -35,7 +35,7 @@ var getErrorMessage = function(err) {
 
 exports.renderadmin = function(req,res){
     res.render('admin',{
-		user:  req.user ? JSON.stringify({ username: req.user.username, _id: req.user._id }) : 'null'
+		user: JSON.stringify(req.user)||"null"
 	});
     // res.render('index', { title: 'Express' });
 }
@@ -151,11 +151,12 @@ exports.saveOAuthUserProfile = function(req, profile, done) {
 
 // Create a new controller method for signing out
 exports.signout = function(req, res) {
-	// Use the Passport 'logout' method to logout
-	req.logout();
-
-	// Redirect the user back to the main application page
-	res.redirect('/_admin');
+	console.log('121');
+	req.session.destroy(function() {
+		res.clearCookie('connect.sid');
+		// Redirect the user back to the main application page
+		res.redirect('/_admin');
+	});
 };
 
 // Create a new controller middleware that is used to authorize authenticated operations 
@@ -170,3 +171,7 @@ exports.requiresLogin = function(req, res, next) {
 	// Call the next middleware
 	next();
 };
+
+exports.test = function(req,res){
+	res.send('asdf');
+}

@@ -63,10 +63,12 @@ app.use(Passport.initialize());
 app.use(Passport.session());
 
 // set router
+var router = express.Router();
 var index = require('./app/routes/index.server.route');
 var admin = require('./app/routes/admin.server.route');
 app.use('/', index);
 app.use('/_admin', admin);
+app.use('/api/_admin', admin);
 
 
 

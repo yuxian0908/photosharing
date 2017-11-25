@@ -1,0 +1,27 @@
+<section data-ng-controller="UserssignupController">
+	<form data-ng-submit="signup()" novalidate>
+		<div>
+			<label>First Name:</label>
+			<input type="text" name="firstName" data-ng-model="firstname"/>
+		</div>
+		<div>
+			<label>Last Name:</label>
+			<input type="text" name="lastName" data-ng-model="lastname"/>
+		</div>
+		<div>
+			<label>Email:</label>
+			<input type="text" name="email" data-ng-model="email"/>
+		</div>
+		<div>
+			<label>Username:</label>
+			<input type="text" name="username" data-ng-model="username"/>
+		</div>
+		<div>	
+			<label>Password:</label>
+			<input type="password" name="password" data-ng-model="password"/>
+		</div>
+		<div>
+			<input type="submit" value="Sign up" />
+		</div>
+	</form>
+</section>

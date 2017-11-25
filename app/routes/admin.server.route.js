@@ -8,12 +8,10 @@ router.route('/')
       .get(admin.renderadmin); 
 
 router.route('/signup')
-      .get(admin.renderSignup)
       .post(admin.signup);
 
 // Set up the 'signin' routes 
 router.route('/signin')
-      .get(admin.renderSignin)
       .post(passport.authenticate('local', {
             successRedirect: '/_admin',
             failureRedirect: '/_admin/signin',
@@ -21,6 +19,6 @@ router.route('/signin')
       }));
 
 // Set up the 'signout' route
-router.get('/signout', admin.signout);
+router.post('/signout', admin.signout);
       
 module.exports = router;

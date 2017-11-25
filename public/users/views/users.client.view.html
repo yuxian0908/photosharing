@@ -1,0 +1,20 @@
+<!-- The users view -->
+<section ng-controller="UsersController" id="usersview">
+	<!-- If the user is not authenticated show the authentication link -->
+	<div data-ng-show="!authentication.user">
+		<a href="/_admin/signin">Signin</a>
+		<a href="/_admin/signup">Signup</a>
+	</div>
+	<!-- Otherwise, show the user details and application links -->
+	<div data-ng-show="authentication.user">
+		<h1>Hello <span data-ng-bind="authentication.user.fullName"></span></h1>
+		<a href="/_admin/signout">Signout</a>
+		<ul>
+			<li><a href="/_admin/articles">公告列表</a></li>
+			<li><a href="/_admin/articles/create">新增公告</a></li>
+			<li><a href="/_admin/reser">預定列表</a></li>
+		</ul>
+	</div>
+
+	<script src='users/js/users.js' type="text/javascript"></script>
+</section>

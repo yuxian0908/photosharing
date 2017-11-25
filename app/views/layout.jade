@@ -1,7 +1,31 @@
 doctype html
-html
+html(xmlns:ng='http://angularjs.org')
   head
+    block headcontent
     title= title
+    meta(charset='utf-8')
+    meta(name='viewport', content='width=device-width, initial-scale=1')
     link(rel='stylesheet', href='/stylesheets/style.css')
+    
   body
     block content
+
+    //-  Load local libraries
+    script(type='text/javascript', src='/lib/angular/angular.js')
+    script(type='text/javascript', src='/lib/angular-route/angular-route.js')
+    script(type='text/javascript', src='/lib/angular-resource/angular-resource.js')
+    //- Bootstrap AngularJS application
+    script(type='text/javascript', src='/application.js')
+    script(type='text/javascript', src='/users.js')
+
+    //- //- load the user module
+    //- <script type="text/javascript" src="/users/users.client.module.js"></script>
+    //- <script type="text/javascript" src="/users/services/authentication.client.service.js"></script>
+    //- <script type="text/javascript" src="/users/controllers/users.client.controller.js"></script>
+    //- <script type="text/javascript" src="/users/controllers/usersSignin.client.controller.js"></script>
+    //- <script type="text/javascript" src="/users/controllers/usersSignup.client.controller.js"></script>	
+    //- <script type="text/javascript" src="/users/controllers/usersSignout.client.controller.js"></script>
+    //- <script type="text/javascript" src="/users/services/users.client.service.js"></script>
+    //- <script type="text/javascript" src="/users/services/usersSignout.client.service.js"></script>
+    //- <script type="text/javascript" src="/users/services/usersSignup.client.service.js"></script>
+    //- <script type="text/javascript" src="/users/config/users.client.routes.js"></script>
