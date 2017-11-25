@@ -28,12 +28,16 @@ grunt.initConfig({
         },
     },
     clean: {
-        all: ['public/users.js','public/users.min.js'],
-        js: ['public/users.js'],        
+        all: ['public/users.js','public/users.min.js','public/angular.js'],
+        js: ['public/users.js','public/angular.js'],        
     },
     concat: {
         options: {
             separator: ';',
+        },
+        angular:{
+            src: ['public/lib/angular/angular.js','public/lib/angular-route/angular-route.js','public/lib/angular-resource/angular-resource.js','public/application.js'],
+            dest: 'public/angular.js',
         },
         users: {
             src: ['template/users/users.client.module.js','template/users/services/*','template/users/config/*','template/users/controllers/*'],
@@ -44,6 +48,7 @@ grunt.initConfig({
         my_target: {
             files: {
                 'public/users.min.js': ['public/users.js'],
+                'public/angular.min.js': ['public/angular.js'],
             }
         }
     },

@@ -2,7 +2,6 @@
 angular.module('users').controller('UserssignoutController', ['$scope', '$location','$routeParams','Usersout',
 	function($scope, $location, $routeParams, Usersout) {
 		$scope.signout = function(){
-            console.log('111');
 			var users = new Usersout({
                 firstname: this.firstname,
                 lastname: this.lastname,
