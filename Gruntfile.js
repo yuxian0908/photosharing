@@ -28,15 +28,23 @@ grunt.initConfig({
         },
     },
     clean: {
-        all: ['public/users.js','public/users.min.js','public/angular.js'],
+        all: ['public/users.js','public/users.min.js','public/angular.js','public/**/**/*.html'],
         js: ['public/users.js','public/angular.js'],        
+    },
+    copy: {
+        main: {
+            expand: true,
+            cwd: 'template',
+            src: '**/**/*.html',
+            dest: 'public/',
+        },
     },
     concat: {
         options: {
             separator: ';',
         },
         angular:{
-            src: ['public/lib/angular/angular.js','public/lib/angular-route/angular-route.js','public/lib/angular-resource/angular-resource.js','public/application.js'],
+            src: ['lib/angular/angular.js','lib/angular-route/angular-route.js','lib/angular-resource/angular-resource.js','template/application.js'],
             dest: 'public/angular.js',
         },
         users: {
@@ -54,9 +62,9 @@ grunt.initConfig({
     },
     watch: {
         scripts: {
-            files: ['Gruntfile.js', 'app/**/*.js', 'config/*.js', 
-                    'config/**/*.js', 'template/**/**/*.js', 'template/**/*.js'],
-            tasks: ['jshint','clean:all','concat','uglify','clean:js'],
+            files: ['Gruntfile.js', 'app/**/*.js', 'config/*.js', 'config/**/*.js', 
+                    'template/**/**/*.js', 'template/**/*.js', 'template/**/**/*.html'],
+            tasks: ['jshint','clean:all','copy','concat','uglify','clean:js'],
             options: {
                 livereload: true,
             },
@@ -78,8 +86,9 @@ grunt.initConfig({
   grunt.loadNpmTasks('grunt-contrib-watch');
   grunt.loadNpmTasks('grunt-concurrent');
   grunt.loadNpmTasks('grunt-contrib-nodemon');
+  grunt.loadNpmTasks('grunt-contrib-copy');
   
   // Default task(s).
-  grunt.registerTask('default', ['jshint','clean:all','concat','uglify','clean:js','concurrent:default']);
+  grunt.registerTask('default', ['jshint','clean:all','copy','concat','uglify','clean:js','concurrent:default']);
   
   };
