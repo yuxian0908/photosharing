@@ -63,14 +63,14 @@ grunt.initConfig({
     watch: {
         scripts: {
             files: ['Gruntfile.js', 'app/**/*.js', 'config/*.js', 'config/**/*.js', 
-                    'template/**/**/*.js', 'template/**/*.js', 'template/**/**/*.html'],
+                    'template/**/**/*.js', 'template/**/*.js'],
             tasks: ['jshint','clean:all','copy','concat','uglify','clean:js'],
             options: {
                 livereload: true,
             },
         },
-        jade: {
-            files: ['app/**/*.jade'],
+        view: {
+            files: ['app/**/*.jade', 'template/**/**/*.html'],
             options: {
                 livereload: true,
             },
