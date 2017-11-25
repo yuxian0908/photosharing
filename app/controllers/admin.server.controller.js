@@ -75,6 +75,8 @@ exports.signup = function(req, res, next) {
 	if (!req.user) {
 		// Create a new 'User' model instance
 		var user = new User(req.body);
+		console.log(req.body);
+		console.log(user);
 		var message = null;
 
 		// Set the user provider property
@@ -148,6 +150,7 @@ exports.saveOAuthUserProfile = function(req, profile, done) {
 
 // Create a new controller method for signing out
 exports.signout = function(req, res) {
+	console.log(req.body);
 	req.session.destroy(function() {
 		res.clearCookie('connect.sid');
 		// Redirect the user back to the main application page
