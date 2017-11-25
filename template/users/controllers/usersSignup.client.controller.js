@@ -1,6 +1,3 @@
-// Invoke 'strict' JavaScript mode
-'use strict';
-
 // Create the 'users' controller
 angular.module('users').controller('UserssignupController', ['$scope', '$location','$routeParams','Usersup',
 	function($scope, $location, $routeParams, Usersup) {

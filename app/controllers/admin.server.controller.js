@@ -1,6 +1,3 @@
-// Invoke 'strict' JavaScript mode
-'use strict';
-
 // Load the module dependencies
 var User = require('mongoose').model('User'),
 	passport = require('passport');
@@ -38,7 +35,7 @@ exports.renderadmin = function(req,res){
 		user: JSON.stringify(req.user)||"null"
 	});
     // res.render('index', { title: 'Express' });
-}
+};
 
 // Create a new controller method that renders the signin page
 exports.renderSignin = function(req, res, next) {
@@ -174,4 +171,4 @@ exports.requiresLogin = function(req, res, next) {
 
 exports.test = function(req,res){
 	res.send('asdf');
-}
+};

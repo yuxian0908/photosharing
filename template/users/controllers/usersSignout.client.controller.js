@@ -1,6 +1,3 @@
-// Invoke 'strict' JavaScript mode
-'use strict';
-
 // Create the 'users' controller
 angular.module('users').controller('UserssignoutController', ['$scope', '$location','$routeParams','Usersout',
 	function($scope, $location, $routeParams, Usersout) {

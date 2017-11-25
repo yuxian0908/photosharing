@@ -1,6 +1,3 @@
-// Invoke 'strict' JavaScript mode
-'use strict';
-
 // Configure the 'users' module routes
 angular.module('users').config(['$routeProvider','$locationProvider',
 	function($routeProvider,$locationProvider) {

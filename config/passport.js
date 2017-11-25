@@ -1,6 +1,3 @@
-// Invoke 'strict' JavaScript mode
-'use strict';
-
 // Load the module dependencies
 var passport = require('passport'),
 	mongoose = require('mongoose');

@@ -1,6 +1,3 @@
-// Invoke 'strict' JavaScript mode
-'use strict';
-
 // Set the main application name
 var mainApplicationModuleName = 'mean';
 

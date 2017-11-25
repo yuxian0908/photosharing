@@ -1,6 +1,3 @@
-// Invoke 'strict' JavaScript mode
-'use strict';
-
 // Create the 'articles' service
 angular.module('users').factory('Usersup', ['$resource',
  function($resource) {
