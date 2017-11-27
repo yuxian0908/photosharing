@@ -44,7 +44,9 @@ grunt.initConfig({
             separator: ';',
         },
         angular:{
-            src: ['lib/angular/angular.js','lib/angular-route/angular-route.js','lib/angular-resource/angular-resource.js','template/application.js'],
+            src: ['lib/angular/angular.js','lib/angular-route/angular-route.js',
+                    'lib/angular-resource/angular-resource.js','template/application.js',
+                    'lib/ng-file-upload/ng-file-upload-shim.min.js','lib/ng-file-upload/ng-file-upload.min.js'],
             dest: 'public/angular.js',
         },
         users: {
