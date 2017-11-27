@@ -188,6 +188,12 @@ exports.uploadphotos = function(req,res){
 					}).single('file');
 
 	upload(req,res,function(err){
+
+		console.log('文件類型：', req.file.mimetype);
+		console.log('原始文件名：', req.file.originalname);
+		console.log('文件大小：', req.file.size);
+		console.log('文件保存路徑：', req.file.path);
+
 		if(err){
 				res.json({error_code:1,err_desc:err});
 				return;
