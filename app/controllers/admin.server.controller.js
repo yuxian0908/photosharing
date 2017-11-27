@@ -193,6 +193,9 @@ exports.uploadphotos = function(req,res){
 		console.log('原始文件名：', req.file.originalname);
 		console.log('文件大小：', req.file.size);
 		console.log('文件保存路徑：', req.file.path);
+		console.log(req.body);
+		console.log(req.file);
+		console.log(req.user);
 
 		if(err){
 				res.json({error_code:1,err_desc:err});

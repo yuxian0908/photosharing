@@ -75,9 +75,15 @@ angular.module('users').controller('UsersController',
 				}
 			},
 			upload : function (file) {
+				// $http.post('api/_admin/upload',$scope.authentication.user).then(function (success){
+				// 	console.log('suc');
+				// },function (error){
+				// 	$scope.error = errorResponse.data.message;
+				// });
+
 				Upload.upload({
 					url: '/api/_admin/upload', //webAPI exposed to upload the file
-					data:{file:file} //pass file as data, should be user ng-model
+					data:{file:file,username:"asd"}, //pass file as data, should be user ng-model
 				}).then(function (resp) { //upload function returns a promise
 					if(resp.data.error_code === 0){ //validate success
 						$window.alert('Success ' + resp.config.data.file.name + 'uploaded. Response: ');
