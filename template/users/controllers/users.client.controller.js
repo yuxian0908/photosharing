@@ -66,24 +66,7 @@ angular.module('users').controller('UsersController',
 
 		// };
 
-
-		// uploadphotos
-		$scope.uploadptos = {
-			init: function(){
-				$scope.uploadptos.imageSrc = "";
-				$scope.uploadptos.showupload = true;
-				console.log($scope.uploadptos.showupload);
-			},
-		};
-		$scope.$on("fileProgress", function(e, progress) {
-			console.log($scope.imageSrc);
-		 	 $scope.progress = progress.loaded / progress.total;
-		});
-		// /uploadphotos
-
-
-
-		// test upload
+		// photos upload
 		$scope.submit = function(){ //function to call on form submit
 			if ($scope.upload_form.file.$valid && $scope.file) { //check if from is valid
 				$scope.upload($scope.file); //call upload function
@@ -110,6 +93,6 @@ angular.module('users').controller('UsersController',
 				$scope.progress = 'progress: ' + progressPercentage + '% '; // capture upload progress
 			});
 		};
-		// /test upload
+		// /photos upload
 	}
 ]);
