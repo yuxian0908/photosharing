@@ -84,14 +84,13 @@ angular.module('users').controller('UsersController',
 
 
 		// test upload
-		var vm = this;
-		vm.submit = function(){ //function to call on form submit
-			if (vm.upload_form.file.$valid && vm.file) { //check if from is valid
-				vm.upload(vm.file); //call upload function
+		$scope.submit = function(){ //function to call on form submit
+			if ($scope.upload_form.file.$valid && $scope.file) { //check if from is valid
+				$scope.upload($scope.file); //call upload function
 			}
 		};
 		
-		vm.upload = function (file) {
+		$scope.upload = function (file) {
 			Upload.upload({
 				url: '/api/_admin/upload', //webAPI exposed to upload the file
 				data:{file:file} //pass file as data, should be user ng-model
@@ -108,7 +107,7 @@ angular.module('users').controller('UsersController',
 				console.log(evt);
 				var progressPercentage = parseInt(100.0 * evt.loaded / evt.total);
 				console.log('progress: ' + progressPercentage + '% ' + evt.config.data.file.name);
-				vm.progress = 'progress: ' + progressPercentage + '% '; // capture upload progress
+				$scope.progress = 'progress: ' + progressPercentage + '% '; // capture upload progress
 			});
 		};
 		// /test upload
