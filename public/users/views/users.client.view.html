@@ -14,10 +14,10 @@
 		<!-- photos upload -->
 		<form name="upload_form">
                 Single Image with validations
-			<input type="file" ngf-select ng-model="file" name="file" 
+			<input type="file" ngf-select ng-model="uploadphotos.file" name="file" 
 			ngf-pattern="'image/*'" accept="image/*" ngf-max-size="20MB"/>
 
-            Image thumbnail: <img style="width:100px;" ng-show="!!file" ngf-thumbnail="file || '/thumb.jpg'"/>
+            Image thumbnail: <img style="width:100px;" ng-show="!!uploadphotos.file" ngf-thumbnail="uploadphotos.file || '/thumb.jpg'"/>
 			
 			<i ng-show="upload_form.file.$error.required">*required</i><br>
             <i ng-show="upload_form.file.$error.maxSize">File too large 
@@ -25,7 +25,7 @@
            <!--  Multiple files
             <div class="button" ngf-select ng-model="up.files" ngf-multiple="true">Select</div>
             Drop files: <div ngf-drop ng-model="up.files" class="drop-box">Drop</div> -->
-            <button type="submit" ng-click="submit()">submit</button>
+            <button type="submit" ng-click="uploadphotos.submit()">submit</button>
             <p>{{up.progress}}</p>
         </form>
 		<!-- /photos upload -->
