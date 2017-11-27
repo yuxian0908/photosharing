@@ -1,7 +1,7 @@
 // Create the 'users' controller
 angular.module('users').controller('UsersController', 
-	['$scope', 'Authentication', '$location','$routeParams','$http',
-	function($scope, Authentication, $location, $routeParams, $http) {
+	['$scope', 'Authentication', '$location','$routeParams','$http','fileReader',
+	function($scope, Authentication, $location, $routeParams, $http, fileReader) {
 		// Expose the authentication service
 		$scope.authentication = Authentication;
 		$scope.signin = function(){
@@ -46,6 +46,28 @@ angular.module('users').controller('UsersController',
 				$scope.error = errorResponse.data.message;
 			});
 		};
+		// $scope.photos = [];
+		// $scope.photos.push({
+		// 	name:'apple',
+		// 	path:'/users/views/img/apple.png'
+		// },
+		// {
+		// 	name:'abstract',
+		// 	path:'/users/views/img/abstract.jpg'
+		// },
+		// {
+		// 	name:'adidas',
+		// 	path:'/users/views/img/Adidas_Logo.png'
+		// });
+		// $scope.creatphotos = function(){
+		// 	console.log($scope.photos);
+
+		// };
+		console.log(fileReader);
+		$scope.imageSrc = "";
 		
+		$scope.$on("fileProgress", function(e, progress) {
+		  $scope.progress = progress.loaded / progress.total;
+		});
 	}
 ]);
