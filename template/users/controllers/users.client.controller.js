@@ -86,7 +86,6 @@ angular.module('users').controller('UsersController',
 		// test upload
 		var vm = this;
 		vm.submit = function(){ //function to call on form submit
-			console.log('12313');
 			if (vm.upload_form.file.$valid && vm.file) { //check if from is valid
 				vm.upload(vm.file); //call upload function
 			}
@@ -94,7 +93,7 @@ angular.module('users').controller('UsersController',
 		
 		vm.upload = function (file) {
 			Upload.upload({
-				url: 'http://localhost:3000/upload', //webAPI exposed to upload the file
+				url: '/api/_admin/upload', //webAPI exposed to upload the file
 				data:{file:file} //pass file as data, should be user ng-model
 			}).then(function (resp) { //upload function returns a promise
 				if(resp.data.error_code === 0){ //validate success

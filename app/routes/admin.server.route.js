@@ -17,6 +17,9 @@ router.route('/signin')
             failureRedirect: '/_admin/signin',
             failureFlash: true
       }));
+/** API path that will upload the photos */
+router.route('/upload')
+      .post(admin.uploadphotos);
 
 // Set up the 'signout' route
 router.post('/signout', admin.signout);
