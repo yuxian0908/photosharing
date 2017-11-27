@@ -1,6 +1,7 @@
 // Load the module dependencies
 var User = require('mongoose').model('User'),
 	passport = require('passport'),
+	fs = require('fs'),
 	multer = require('multer');
 
 // Create a new error handling controller method
@@ -173,13 +174,17 @@ exports.requiresLogin = function(req, res, next) {
 };
 
 exports.uploadphotos = function(req,res){
+	
 	var storage = multer.diskStorage({ //multers disk storage settings
 		destination: function (req, file, cb) {
-			cb(null, './public/uploads');
+			var dir = './public/uploads/'+ req.user._id ;
+			fs.mkdir(dir, function(err){
+				cb(null, dir);
+			});
 		},
 		filename: function (req, file, cb) {
 			var datetimestamp = Date.now();
-			cb(null, file.fieldname + '-' + datetimestamp + '.' + file.originalname.split('.')[file.originalname.split('.').length -1]);
+			cb(null, req.user._id + '-' + datetimestamp + '.' + file.originalname.split('.')[file.originalname.split('.').length -1]);
 		}
 	  });
 	  
