@@ -63,11 +63,21 @@ angular.module('users').controller('UsersController',
 		// 	console.log($scope.photos);
 
 		// };
-		console.log(fileReader);
-		$scope.imageSrc = "";
-		
+
+
+		// uploadphotos
+		$scope.uploadptos = {
+			init: function(){
+				$scope.uploadptos.imageSrc = "";
+				$scope.uploadptos.showupload = true;
+				console.log($scope.uploadptos.showupload);
+			},
+		};
 		$scope.$on("fileProgress", function(e, progress) {
-		  $scope.progress = progress.loaded / progress.total;
+			console.log($scope.imageSrc);
+		 	 $scope.progress = progress.loaded / progress.total;
 		});
+		// /uploadphotos
+
 	}
 ]);
