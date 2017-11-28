@@ -53,19 +53,8 @@ angular.module('users').controller('UsersController',
 
 		$scope.showphotos = {
 			temp: [],
-			photos : [{
-				name:'apple',
-				path:'/users/views/img/apple.png'
-			},
-			{
-				name:'abstract',
-				path:'/users/views/img/abstract.jpg'
-			},
-			{
-				name:'adidas',
-				path:'/users/views/img/Adidas_Logo.png'
-			}],
 			show : function(){
+				$scope.uploadphotos.file = "";
 				var user = {
 					id : $scope.authentication.user._id
 				};
@@ -118,9 +107,9 @@ angular.module('users').controller('UsersController',
 				}).then(function (resp) { //upload function returns a promise
 					$scope.showphotos.show();
 					if(resp.data.error_code === 0){ //validate success
-						$window.alert('Success ' + resp.config.data.file.name + 'uploaded. Response: ');
+						console.log('Success ' + resp.config.data.file.name + 'uploaded. Response: ');
 					} else {
-						$window.alert('an error occured');
+						console.log('an error occured');
 					}
 				}, function (resp) { //catch error
 					console.log('Error status: ' + resp.status);
