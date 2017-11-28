@@ -15,6 +15,7 @@ angular.module('users').controller('UsersController',
 				window.location.reload("/_admin");
 				$location.path('/_admin');
 			},function (error){
+				console.log('asdf');
 				$scope.error = errorResponse.data.message;
 			});
 		};
@@ -39,7 +40,8 @@ angular.module('users').controller('UsersController',
                 lastname: this.lastname,
                 email: this.email,
                 username: this.username,
-                password: this.password
+				password: this.password,
+				imgAry:[]
             };
             $http.post('api/_admin/signup',users).then(function (success){
 				window.location.reload("/_admin");
@@ -83,7 +85,7 @@ angular.module('users').controller('UsersController',
 
 				Upload.upload({
 					url: '/api/_admin/upload', //webAPI exposed to upload the file
-					data:{file:file,username:"asd"}, //pass file as data, should be user ng-model
+					data:{file:file,username: $scope.authentication.user}, //pass file as data, should be user ng-model
 				}).then(function (resp) { //upload function returns a promise
 					if(resp.data.error_code === 0){ //validate success
 						$window.alert('Success ' + resp.config.data.file.name + 'uploaded. Response: ');

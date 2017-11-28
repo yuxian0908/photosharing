@@ -1,5 +1,6 @@
 // Load the module dependencies
-var User = require('mongoose').model('User'),
+var mongoose = require('mongoose'),
+	User = require('mongoose').model('User'),
 	passport = require('passport'),
 	fs = require('fs'),
 	multer = require('multer');
@@ -206,6 +207,25 @@ exports.uploadphotos = function(req,res){
 				res.json({error_code:1,err_desc:err});
 				return;
 		}
+		var img = {
+			originalname: req.file.originalname,
+			path:req.file.path
+		};
+
+		User.findById(req.body.username, function (err, user) {
+			if (err){
+				var message = getErrorMessage(err);
+				req.flash('error', message);
+			} 
+			user.imgAry.push(img);
+			user.save(function (err) {
+				if (err){
+					var message = getErrorMessage(err);
+					req.flash('error', message);
+				} 
+			});
+		  });
+
 			res.json({error_code:0,err_desc:null});
 	});
 };

@@ -46,7 +46,11 @@ var UserSchema = new Schema({
 		type: Date,
 		// Create a default 'created' value
 		default: Date.now
-	}
+	},
+	imgAry:[{
+		originalname: String,
+		path: String
+	}]
 });
 
 // Set the 'fullname' virtual property
@@ -60,10 +64,13 @@ UserSchema.virtual('fullName').get(function() {
 
 // Use a pre-save middleware to hash the password
 UserSchema.pre('save', function(next) {
-	if (this.password) {
-		this.salt = new Buffer(crypto.randomBytes(16).toString('base64'), 'base64');
-		this.password = this.hashPassword(this.password);
-	}
+	if (this.isNew) {
+        if (this.password) {
+			this.salt = new Buffer(crypto.randomBytes(16).toString('base64'), 'base64');
+			this.password = this.hashPassword(this.password);
+		}
+    }
+	
 
 	next();
 });

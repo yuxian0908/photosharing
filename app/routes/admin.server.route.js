@@ -16,7 +16,10 @@ router.route('/signin')
             successRedirect: '/_admin',
             failureRedirect: '/_admin/signin',
             failureFlash: true
-      }));
+      }))
+      .get(function(){
+            console.log('signin error');
+      });
 /** API path that will upload the photos */
 router.route('/upload')
       .post(admin.uploadphotos);
