@@ -219,7 +219,7 @@ exports.uploadphotos = function(req,res){
 				var message = getErrorMessage(err);
 				req.flash('error', message);
 			} 
-			user.imgAry.push(img);
+			user.imgAry.unshift(img);
 			user.save(function (err) {
 				if (err){
 					var message = getErrorMessage(err);

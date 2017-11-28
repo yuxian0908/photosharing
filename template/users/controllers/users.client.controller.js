@@ -116,6 +116,7 @@ angular.module('users').controller('UsersController',
 					url: '/api/_admin/upload', //webAPI exposed to upload the file
 					data:{file:file,username: $scope.authentication.user}, //pass file as data, should be user ng-model
 				}).then(function (resp) { //upload function returns a promise
+					$scope.showphotos.show();
 					if(resp.data.error_code === 0){ //validate success
 						$window.alert('Success ' + resp.config.data.file.name + 'uploaded. Response: ');
 					} else {
@@ -133,5 +134,12 @@ angular.module('users').controller('UsersController',
 			}
 		};
 		// /photos upload
+
+
+		// init all init functions
+		$scope.initFunctions = function(){
+			$scope.showphotos.show();
+		};
+		// /init all init functions
 	}
 ]);
