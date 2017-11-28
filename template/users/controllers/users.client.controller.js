@@ -50,6 +50,35 @@ angular.module('users').controller('UsersController',
 				$scope.error = errorResponse.data.message;
 			});
 		};
+
+		$scope.showphotos = {
+			temp: [],
+			photos : [{
+				name:'apple',
+				path:'/users/views/img/apple.png'
+			},
+			{
+				name:'abstract',
+				path:'/users/views/img/abstract.jpg'
+			},
+			{
+				name:'adidas',
+				path:'/users/views/img/Adidas_Logo.png'
+			}],
+			show : function(){
+				var user = {
+					id : $scope.authentication.user._id
+				};
+				$http.post('api/_admin/showphotos',user).then(function (res){
+					console.log(res.data[0].imgAry);
+					$scope.showphotos.temp = res.data[0].imgAry;
+					console.log($scope.showphotos.temp);
+				},function (error){
+					$scope.error = errorResponse.data.message;
+				});
+			}
+		};
+
 		// $scope.photos = [];
 		// $scope.photos.push({
 		// 	name:'apple',

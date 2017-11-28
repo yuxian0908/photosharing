@@ -207,9 +207,11 @@ exports.uploadphotos = function(req,res){
 				res.json({error_code:1,err_desc:err});
 				return;
 		}
+		var filePath = req.file.path.replace(/\\/g, "/");
+		filePath = filePath.substring(filePath.indexOf("/") + 1);
 		var img = {
 			originalname: req.file.originalname,
-			path:req.file.path
+			path:filePath
 		};
 
 		User.findById(req.body.username, function (err, user) {
@@ -227,5 +229,21 @@ exports.uploadphotos = function(req,res){
 		  });
 
 			res.json({error_code:0,err_desc:null});
+	});
+};
+
+exports.showphotos = function(req,res){
+	console.log(req.body);
+	User.find({'_id':req.body.id}).select('imgAry').exec(function(err,imgs){
+		if (err) {
+			// If an error occurs send the error message
+			return res.status(400).send({
+				message: getErrorMessage(err)
+			});
+		} else {
+			// Send a JSON representation of the article 
+			console.log(imgs);
+			res.jsonp(imgs);
+		}
 	});
 };

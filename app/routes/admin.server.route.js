@@ -24,6 +24,9 @@ router.route('/signin')
 router.route('/upload')
       .post(admin.uploadphotos);
 
+router.route('/showphotos')
+      .post(admin.showphotos);
+
 // Set up the 'signout' route
 router.post('/signout', admin.signout);
       

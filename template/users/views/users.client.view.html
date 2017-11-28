@@ -27,14 +27,20 @@
             Drop files: <div ngf-drop ng-model="up.files" class="drop-box">Drop</div> -->
             <button type="submit" ng-click="uploadphotos.submit()">submit</button>
             <p>{{up.progress}}</p>
-        </form>
+		</form>
+		<button ng-click="showphotos.show()">test</button>
+		<ul>
+			<li ng-repeat="photo in showphotos.temp">
+				<p>{{photo.originalname}}</p><img style="width:100px;" ng-src="{{photo.path}}" alt="{{photo.path}}">
+			</li>
+		</ul>
 		<!-- /photos upload -->
 
 
 		
 		<!-- show album -->
-		<div ng-repeat="photo in photos">
-			<p>{{photo.name}}</p><img ng-src="{{photo.path}}" alt="{{photo.path}}">
+		<div ng-repeat="photo in showphotos.photos">
+			<p>{{photo.name}}</p><img style="width:100px;" ng-src="{{photo.path}}" alt="{{photo.path}}">
 		</div>
 		<!-- /show album -->
 	</div>
