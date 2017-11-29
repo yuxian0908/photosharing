@@ -11,6 +11,7 @@ angular.module('users').controller('UsersController',
                 username: this.username,
                 password: this.password
 			};
+
 			$http.post('api/_admin/getuser',users).then(function (res){
 				$scope.signin.userid = res.data[0].id;
 				// window.location.reload('/_admin/');
@@ -19,43 +20,17 @@ angular.module('users').controller('UsersController',
 				console.log("error happened");
 				$scope.error = errorResponse.data.message;
 			});
+
             $http.post('api/_admin/signin',users).then(function (res){
-				console.log(res);
 				// window.location.reload('/_admin/');
 				// $location.path('/_admin/');
 				$location.path('/_admin/user/'+$scope.signin.userid);
 				window.location.reload('/_admin/user/'+$scope.signin.userid);
 			},function (error){
-				console.log('asdf');
 				$scope.error = errorResponse.data.message;
 			});
-
-
-			// var users = new Users({
-            //     username: this.username,
-            //     password: this.password
-			// });
-
-			// $http.post('api/_admin/getuser',users).then(function (res){
-			// 	$scope.signin.userid = res.data[0].id;
-			// 	// window.location.reload('/_admin/');
-			// 	// $location.path('/_admin/');
-			// },function (error){
-			// 	console.log("error happened");
-			// 	$scope.error = errorResponse.data.message;
-			// });
-
-			// users.$save(function(response) {
-			// 	// window.location.reload('/_admin/');
-            //     // $location.path('/_admin/');
-               
-			// 	$location.path('/_admin/signin/'+$scope.signin.userid);
-			// 	window.location.reload('/_admin/signin/'+$scope.signin.userid);
-			// 	// $location.path('/_admin/signin/'+$scope.signin.userid);
-            // }, function(errorResponse) {
-            //     $scope.error = errorResponse.data.message;
-            // });
 		};
+
 		$scope.signout = function(){
             var users = {
                 firstname: this.firstname,
@@ -71,6 +46,7 @@ angular.module('users').controller('UsersController',
 				$scope.error = errorResponse.data.message;
 			});
 		};
+
 		$scope.signup = function(){
             var users = {
                 firstname: this.firstname,
@@ -96,33 +72,12 @@ angular.module('users').controller('UsersController',
 					id : $scope.authentication.user._id
 				};
 				$http.post('api/_admin/showphotos',user).then(function (res){
-					console.log(res.data[0].imgAry);
 					$scope.showphotos.temp = res.data[0].imgAry;
-					console.log($scope.showphotos.temp);
 				},function (error){
 					$scope.error = errorResponse.data.message;
 				});
 			}
 		};
-
-		// $scope.photos = [];
-		// $scope.photos.push({
-		// 	name:'apple',
-		// 	path:'/users/views/img/apple.png'
-		// },
-		// {
-		// 	name:'abstract',
-		// 	path:'/users/views/img/abstract.jpg'
-		// },
-		// {
-		// 	name:'adidas',
-		// 	path:'/users/views/img/Adidas_Logo.png'
-		// });
-		// $scope.creatphotos = function(){
-		// 	console.log($scope.photos);
-
-		// };
-
 		
 		// photos upload
 		$scope.uploadphotos = {
@@ -132,12 +87,6 @@ angular.module('users').controller('UsersController',
 				}
 			},
 			upload : function (file) {
-				// $http.post('api/_admin/upload',$scope.authentication.user).then(function (success){
-				// 	console.log('suc');
-				// },function (error){
-				// 	$scope.error = errorResponse.data.message;
-				// });
-
 				Upload.upload({
 					url: '/api/_admin/upload', //webAPI exposed to upload the file
 					data:{file:file,username: $scope.authentication.user}, //pass file as data, should be user ng-model
@@ -161,10 +110,33 @@ angular.module('users').controller('UsersController',
 		};
 		// /photos upload
 
+		$scope.otheruser = {
+			init: function(){
+				$scope.initFunctions.otheruserid = $routeParams.userId;
+				var otheruser = {
+					_id : $scope.initFunctions.otheruserid
+				};
+				$http.post('api/_admin/getOtheruser',otheruser).then(function (res){
+					$scope.otheruser.username = res.data[0].username;
+					// window.location.reload('/_admin/');
+					// $location.path('/_admin/');
+				},function (error){
+					console.log("error happened");
+					$scope.error = errorResponse.data.message;
+				});
+			}
+		};
+
 
 		// init all init functions
-		$scope.initFunctions = function(){
-			$scope.showphotos.show();
+		$scope.initFunctions = {
+			userpage : function(){
+				$scope.showphotos.show();
+			},
+			otheruser : function(){
+				$scope.otheruser.init();
+				$scope.showphotos.show();
+			}
 		};
 		// /init all init functions
 	}

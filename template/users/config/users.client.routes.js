@@ -9,7 +9,7 @@ angular.module('users').config(['$routeProvider','$locationProvider',
 			templateUrl: 'users/views/usersSignin.client.view.html'
 		}).
 		when('/_admin/user/:userId',{
-			templateUrl: 'users/views//users.client.view.html'
+			templateUrl: 'users/views//otherusers.client.view.html'
 		}).
 		when('/_admin/signup',{
 			templateUrl: 'users/views/usersSignup.client.view.html'

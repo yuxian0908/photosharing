@@ -78,8 +78,6 @@ exports.signup = function(req, res, next) {
 	if (!req.user) {
 		// Create a new 'User' model instance
 		var user = new User(req.body);
-		console.log(req.body);
-		console.log(user);
 		var message = null;
 
 		// Set the user provider property
@@ -153,7 +151,6 @@ exports.saveOAuthUserProfile = function(req, profile, done) {
 
 // Create a new controller method for signing out
 exports.signout = function(req, res) {
-	console.log(req.body);
 	req.session.destroy(function() {
 		res.clearCookie('connect.sid');
 		// Redirect the user back to the main application page
@@ -194,15 +191,6 @@ exports.uploadphotos = function(req,res){
 					}).single('file');
 
 	upload(req,res,function(err){
-
-		console.log('文件類型：', req.file.mimetype);
-		console.log('原始文件名：', req.file.originalname);
-		console.log('文件大小：', req.file.size);
-		console.log('文件保存路徑：', req.file.path);
-		console.log(req.body);
-		console.log(req.file);
-		console.log(req.user);
-
 		if(err){
 				res.json({error_code:1,err_desc:err});
 				return;
@@ -233,7 +221,6 @@ exports.uploadphotos = function(req,res){
 };
 
 exports.showphotos = function(req,res){
-	console.log(req.body);
 	User.find({'_id':req.body.id}).select('imgAry').exec(function(err,imgs){
 		if (err) {
 			// If an error occurs send the error message
@@ -242,14 +229,12 @@ exports.showphotos = function(req,res){
 			});
 		} else {
 			// Send a JSON representation of the article 
-			console.log(imgs);
 			res.jsonp(imgs);
 		}
 	});
 };
 
 exports.getuser = function(req,res){
-	console.log(req.body);
 	User.find({'username':req.body.username}).select('_id').exec(function(err,userid){
 		if (err) {
 			// If an error occurs send the error message
@@ -258,8 +243,21 @@ exports.getuser = function(req,res){
 			});
 		} else {
 			// Send a JSON representation of the article 
-			console.log(userid);
 			res.jsonp(userid);
+		}
+	});
+};
+
+exports.getOtheruser = function(req,res){
+	User.find({'_id':req.body._id}).select('username').exec(function(err,user){
+		if (err) {
+			// If an error occurs send the error message
+			return res.status(400).send({
+				message: getErrorMessage(err)
+			});
+		} else {
+			// Send a JSON representation of the article 
+			res.jsonp(user);
 		}
 	});
 };

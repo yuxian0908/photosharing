@@ -1,5 +1,5 @@
 <!-- The users view -->
-<section ng-controller="UsersController" id="usersview" ng-init="initFunctions()">
+<section ng-controller="UsersController" id="usersview" ng-init="initFunctions.userpage()">
 	<!-- If the user is not authenticated show the authentication link -->
 	<div data-ng-show="!authentication.user">
 		<a href="/_admin/signin">Signin</a>
