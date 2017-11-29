@@ -7,23 +7,10 @@ angular.module('users').controller('UsersController',
 		// Expose the authentication service
 		$scope.authentication = Authentication;
 		$scope.signin = function(){
-			// var users ={
-            //     username: this.username,
-            //     password: this.password
-            // };
-            // $http.post('api/_admin/signin',users).then(function (res){
-			// 	console.log(res);
-			// 	// window.location.reload('/_admin/');
-			// 	// $location.path('/_admin/');
-			// },function (error){
-			// 	console.log('asdf');
-			// 	$scope.error = errorResponse.data.message;
-			// });
-			var users = new Users({
+			var users ={
                 username: this.username,
                 password: this.password
-			});
-
+			};
 			$http.post('api/_admin/getuser',users).then(function (res){
 				$scope.signin.userid = res.data[0].id;
 				// window.location.reload('/_admin/');
@@ -32,17 +19,42 @@ angular.module('users').controller('UsersController',
 				console.log("error happened");
 				$scope.error = errorResponse.data.message;
 			});
-
-			users.$save(function(response) {
+            $http.post('api/_admin/signin',users).then(function (res){
+				console.log(res);
 				// window.location.reload('/_admin/');
-                // $location.path('/_admin/');
+				// $location.path('/_admin/');
+				$location.path('/_admin/user/'+$scope.signin.userid);
+				window.location.reload('/_admin/user/'+$scope.signin.userid);
+			},function (error){
+				console.log('asdf');
+				$scope.error = errorResponse.data.message;
+			});
+
+
+			// var users = new Users({
+            //     username: this.username,
+            //     password: this.password
+			// });
+
+			// $http.post('api/_admin/getuser',users).then(function (res){
+			// 	$scope.signin.userid = res.data[0].id;
+			// 	// window.location.reload('/_admin/');
+			// 	// $location.path('/_admin/');
+			// },function (error){
+			// 	console.log("error happened");
+			// 	$scope.error = errorResponse.data.message;
+			// });
+
+			// users.$save(function(response) {
+			// 	// window.location.reload('/_admin/');
+            //     // $location.path('/_admin/');
                
-				$location.path('/_admin/signin/'+$scope.signin.userid);
-				window.location.reload('/_admin/signin/'+$scope.signin.userid);
-				// $location.path('/_admin/signin/'+$scope.signin.userid);
-            }, function(errorResponse) {
-                $scope.error = errorResponse.data.message;
-            });
+			// 	$location.path('/_admin/signin/'+$scope.signin.userid);
+			// 	window.location.reload('/_admin/signin/'+$scope.signin.userid);
+			// 	// $location.path('/_admin/signin/'+$scope.signin.userid);
+            // }, function(errorResponse) {
+            //     $scope.error = errorResponse.data.message;
+            // });
 		};
 		$scope.signout = function(){
             var users = {

@@ -8,7 +8,7 @@ angular.module('users').config(['$routeProvider','$locationProvider',
 		when('/_admin/signin',{
 			templateUrl: 'users/views/usersSignin.client.view.html'
 		}).
-		when('/_admin/signin/:userId',{
+		when('/_admin/user/:userId',{
 			templateUrl: 'users/views//users.client.view.html'
 		}).
 		when('/_admin/signup',{
