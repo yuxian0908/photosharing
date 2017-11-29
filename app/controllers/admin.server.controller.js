@@ -182,7 +182,7 @@ exports.uploadphotos = function(req,res){
 					req.flash('error', message);
 				} 
 			});
-		  });
+		});
 
 			res.json({error_code:0,err_desc:null});
 	});
@@ -226,6 +226,41 @@ exports.getOtheruser = function(req,res){
 		} else {
 			// Send a JSON representation of the article 
 			res.jsonp(user);
+		}
+	});
+};
+
+exports.test = function(req,res){
+	console.log(req.body);
+	User.findById(req.body.userid, function (err, user) {
+		if (err) {
+			// If an error occurs send the error message
+			return res.status(400).send({
+				message: getErrorMessage(err)
+			});
+		} else {
+			var delImgPath;
+			for(var i = 0; i<user.imgAry.length; i++){
+				if(user.imgAry[i]._id == req.body.photoid){
+					delImgPath = user.imgAry[i].path;
+					user.imgAry.splice(i, 1);
+					break;
+				}
+			}
+			user.save(function (err) {
+				if (err){
+					var message = getErrorMessage(err);
+					req.flash('error', message);
+				} 
+			});
+			fs.unlink('./public/'+ delImgPath, function(error) {
+				if (error) {
+					throw error;
+				}
+				console.log('Deleted '+req.body.photoid);
+			});
+			
+			res.jsonp(user.imgAry);
 		}
 	});
 };

@@ -65,7 +65,7 @@ grunt.initConfig({
     watch: {
         scripts: {
             files: ['Gruntfile.js', 'app/**/*.js', 'config/*.js', 'config/**/*.js', 
-                    'template/**/**/*.js', 'template/**/*.js'],
+                    'template/**/**/*.js', 'template/**/*.js', 'app.js'],
             tasks: ['jshint','clean:all','copy','concat','uglify','clean:js'],
             options: {
                 livereload: true,
@@ -73,6 +73,7 @@ grunt.initConfig({
         },
         view: {
             files: ['app/**/*.jade', 'template/**/**/*.html'],
+            tasks: ['jshint','clean:all','copy','concat','uglify','clean:js'],
             options: {
                 livereload: true,
             },

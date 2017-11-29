@@ -13,10 +13,8 @@ router.route('/getuser')
 router.route('/getOtheruser')
       .post(admin.getOtheruser); 
 
-// router.route('/:id')
-//       .get(function(req, res) {
-//             res.send('hello ' + req.params.id + '!');
-//           }); 
+router.route('/photos/:id')
+      .post(admin.test); 
 
 router.route('/signup')
       .post(admin.signup);
