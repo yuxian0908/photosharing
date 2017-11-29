@@ -1,0 +1,12 @@
+<section ng-controller="UsersController" id="searchuserview" ng-init="initFunctions.searchuser()">
+    <form data-ng-submit="searchuser.search()" novalidate>
+        <div class="form-group">
+            <label>search:</label>
+            <input type="text" name="username" data-ng-model="searchuser.searchname"/>
+            <button class="btn btn-default" type="submit">查詢</button>
+        </div>
+    </form>
+    <div ng-repeat="user in searchuser.searchresult">
+        <a href="_admin/user/{{user._id}}">{{user.username}}</a>
+    </div>
+</section>

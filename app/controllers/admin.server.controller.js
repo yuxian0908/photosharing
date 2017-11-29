@@ -230,7 +230,7 @@ exports.getOtheruser = function(req,res){
 	});
 };
 
-exports.test = function(req,res){
+exports.deletephoto = function(req,res){
 	User.findById(req.body.userid, function (err, user) {
 		if (err) {
 			// If an error occurs send the error message
@@ -260,6 +260,22 @@ exports.test = function(req,res){
 			});
 			
 			res.jsonp(user.imgAry);
+		}
+	});
+};
+
+exports.searchuser = function(req,res){
+	console.log(req.body.searchname);
+	User.find({'username':req.body.searchname}).exec(function(err,user){
+		if (err) {
+			// If an error occurs send the error message
+			return res.status(400).send({
+				message: getErrorMessage(err)
+			});
+		} else {
+			// Send a JSON representation of the article 
+			console.log(user);
+			res.jsonp(user);
 		}
 	});
 };

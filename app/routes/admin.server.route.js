@@ -10,11 +10,14 @@ router.route('/')
 router.route('/getuser')
       .post(admin.getuser); 
 
+router.route('/searchuser')
+      .post(admin.searchuser); 
+
 router.route('/getOtheruser')
       .post(admin.getOtheruser); 
 
 router.route('/photos/:id')
-      .post(admin.test); 
+      .post(admin.deletephoto); 
 
 router.route('/signup')
       .post(admin.signup);

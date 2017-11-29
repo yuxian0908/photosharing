@@ -95,6 +95,33 @@ angular.module('users').controller('UsersController',
 			}
 		};
 
+		$scope.searchuser = {
+			init : function(){
+				$scope.searchuser.searchname="";
+				$scope.searchuser.searchresult=[];
+			},
+			search : function(){
+				var query = {
+					searchname : $scope.searchuser.searchname
+				};
+				$scope.searchuser.searchresult=[];
+				$http.post('api/_admin/searchuser',query).then(function (res){
+					var result = {
+						_id: res.data[0]._id,
+						username: res.data[0].username
+					};
+					$scope.searchuser.searchresult.push(result);
+					console.log($scope.searchuser.searchresult);
+
+					// window.location.reload('/_admin/');
+					// $location.path('/_admin/');
+				},function (error){
+					console.log("error happened");
+					$scope.error = errorResponse.data.message;
+				});
+			}
+		};
+
 		// photos upload
 		$scope.uploadphotos = {
 			submit : function(){ //function to call on form submit
@@ -167,6 +194,9 @@ angular.module('users').controller('UsersController',
 			otheruser : function(){
 				$scope.otheruser.init();
 				$scope.otheruser.showphotos.show();
+			},
+			searchuser: function(){
+				$scope.searchuser.init();
 			}
 		};
 		// /init all init functions
