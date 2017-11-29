@@ -79,6 +79,16 @@ app.use('/', index);
 app.use('/_admin', admin);
 app.use('/api/_admin', admin);
 
+app.all('/_admin/*', function(req, res, next) {
+  // Just send the index.html for other files to support HTML5Mode
+  res.render('admin.jade', { root: './app/views', title:'admin', user:JSON.stringify(req.user)});
+});
+
+app.all('/*', function(req, res, next) {
+  // Just send the index.html for other files to support HTML5Mode
+  res.render('index.jade', { root: './app/views',title:'test'});
+});
+
 
 
 // catch 404 and forward to error handler

@@ -7,6 +7,14 @@ var passport = require('passport');
 router.route('/')
       .get(admin.renderadmin); 
 
+router.route('/getuser')
+      .post(admin.getuser); 
+
+router.route('/:id')
+      .get(function(req, res) {
+            res.send('hello ' + req.params.id + '!');
+          }); 
+
 router.route('/signup')
       .post(admin.signup);
 

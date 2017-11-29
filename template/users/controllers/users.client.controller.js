@@ -1,23 +1,48 @@
 // Create the 'users' controller
 angular.module('users').controller('UsersController', 
 	['$scope', 'Authentication', '$location','$routeParams',
-	'$http','fileReader','Upload','$window',
+	'$http','fileReader','Upload','$window','Users',
 	function($scope, Authentication, $location, $routeParams, $http, 
-			fileReader,Upload,$window) {
+			fileReader,Upload,$window,Users) {
 		// Expose the authentication service
 		$scope.authentication = Authentication;
 		$scope.signin = function(){
-			var users ={
+			// var users ={
+            //     username: this.username,
+            //     password: this.password
+            // };
+            // $http.post('api/_admin/signin',users).then(function (res){
+			// 	console.log(res);
+			// 	// window.location.reload('/_admin/');
+			// 	// $location.path('/_admin/');
+			// },function (error){
+			// 	console.log('asdf');
+			// 	$scope.error = errorResponse.data.message;
+			// });
+			var users = new Users({
                 username: this.username,
                 password: this.password
-            };
-            $http.post('api/_admin/signin',users).then(function (success){
-				window.location.reload("/_admin");
-				$location.path('/_admin');
+			});
+
+			$http.post('api/_admin/getuser',users).then(function (res){
+				$scope.signin.userid = res.data[0].id;
+				// window.location.reload('/_admin/');
+				// $location.path('/_admin/');
 			},function (error){
-				console.log('asdf');
+				console.log("error happened");
 				$scope.error = errorResponse.data.message;
 			});
+
+			users.$save(function(response) {
+				// window.location.reload('/_admin/');
+                // $location.path('/_admin/');
+               
+				$location.path('/_admin/signin/'+$scope.signin.userid);
+				window.location.reload('/_admin/signin/'+$scope.signin.userid);
+				// $location.path('/_admin/signin/'+$scope.signin.userid);
+            }, function(errorResponse) {
+                $scope.error = errorResponse.data.message;
+            });
 		};
 		$scope.signout = function(){
             var users = {

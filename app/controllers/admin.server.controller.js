@@ -247,3 +247,19 @@ exports.showphotos = function(req,res){
 		}
 	});
 };
+
+exports.getuser = function(req,res){
+	console.log(req.body);
+	User.find({'username':req.body.username}).select('_id').exec(function(err,userid){
+		if (err) {
+			// If an error occurs send the error message
+			return res.status(400).send({
+				message: getErrorMessage(err)
+			});
+		} else {
+			// Send a JSON representation of the article 
+			console.log(userid);
+			res.jsonp(userid);
+		}
+	});
+};
