@@ -2,26 +2,26 @@
 angular.module('users').config(['$routeProvider','$locationProvider',
 	function($routeProvider,$locationProvider) {
 		$routeProvider.
-		when('/_admin', {
+		when('/', {
 			templateUrl: 'users/views/users.client.view.html'
 		}).
-		when('/_admin/signin',{
+		when('/signin',{
 			templateUrl: 'users/views/usersSignin.client.view.html'
 		}).
-		when('/_admin/user/:userId',{
+		when('/user/:userId',{
 			templateUrl: 'users/views/otherusers.client.view.html'
 		}).
-		when('/_admin/searchuser',{
+		when('/searchuser',{
 			templateUrl: 'users/views/searchuser.client.view.html'
 		}).
-		when('/_admin/signup',{
+		when('/signup',{
 			templateUrl: 'users/views/usersSignup.client.view.html'
 		}).
-		when('/_admin/signout',{
+		when('/signout',{
 			templateUrl: 'users/views/usersSignout.client.view.html'
 		}).
 		otherwise({
-			redirectTo: '/_admin'
+			redirectTo: '/'
 		});
 
 		$locationProvider.html5Mode(true);

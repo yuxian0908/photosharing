@@ -13,14 +13,17 @@ angular.module('users').controller('UsersController',
                 password: this.password
 			};
 
-			$http.post('api/_admin/getuser',users).then(function (res){
+			$http.post('api/getuser',users).then(function (res){
+				console.log(res);
 				$scope.signin.userid = res.data[0].id;
-				$http.post('api/_admin/signin',users).then(function (res){
-					// window.location.reload('/_admin/');
-					// $location.path('/_admin/');
-					$location.path('/_admin/');
-					window.location.reload('/_admin/');
+				$http.post('api/signin',users).then(function (res){
+					// window.location.reload('/');
+					// $location.path('/');
+					$location.path('/');
+					window.location.reload('/');
+					console.log(res);
 				},function (error){
+					console.log('wrong');
 					$scope.error = errorResponse.data.message;
 				});
 			},function (error){
@@ -39,9 +42,9 @@ angular.module('users').controller('UsersController',
                 username: this.username,
                 password: this.password
             };
-            $http.post('api/_admin/signout',users).then(function (success){
-				window.location.reload("/_admin");
-				$location.path('/_admin');
+            $http.post('api/signout',users).then(function (success){
+				window.location.reload("/");
+				$location.path('/');
 			},function (error){
 				$scope.error = errorResponse.data.message;
 			});
@@ -56,9 +59,9 @@ angular.module('users').controller('UsersController',
 				password: this.password,
 				imgAry:[]
             };
-            $http.post('api/_admin/signup',users).then(function (success){
-				window.location.reload("/_admin");
-				$location.path('/_admin');
+            $http.post('api/signup',users).then(function (success){
+				window.location.reload("/");
+				$location.path('/');
 			},function (error){
 				$scope.error = errorResponse.data.message;
 			});
@@ -70,10 +73,10 @@ angular.module('users').controller('UsersController',
 				var otheruser = {
 					_id : $scope.otheruser._id
 				};
-				$http.post('api/_admin/getOtheruser',otheruser).then(function (res){
+				$http.post('api/getOtheruser',otheruser).then(function (res){
 					$scope.otheruser.username = res.data[0].username;
-					// window.location.reload('/_admin/');
-					// $location.path('/_admin/');
+					// window.location.reload('/');
+					// $location.path('/');
 				},function (error){
 					console.log("error happened");
 					$scope.error = errorResponse.data.message;
@@ -86,7 +89,7 @@ angular.module('users').controller('UsersController',
 					var user = {
 						id : $scope.otheruser._id
 					};
-					$http.post('api/_admin/showphotos',user).then(function (res){
+					$http.post('api/showphotos',user).then(function (res){
 						$scope.showphotos.temp = res.data[0].imgAry;
 					},function (error){
 						$scope.error = errorResponse.data.message;
@@ -105,7 +108,7 @@ angular.module('users').controller('UsersController',
 					searchname : $scope.searchuser.searchname
 				};
 				$scope.searchuser.searchresult=[];
-				$http.post('api/_admin/searchuser',query).then(function (res){
+				$http.post('api/searchuser',query).then(function (res){
 					$scope.searchuser.searchresult = res.data;
 				},function (error){
 					console.log("error happened");
@@ -123,7 +126,7 @@ angular.module('users').controller('UsersController',
 			},
 			upload : function (file) {
 				Upload.upload({
-					url: '/api/_admin/upload', //webAPI exposed to upload the file
+					url: '/api/upload', //webAPI exposed to upload the file
 					data:{file:file,username: $scope.authentication.user}, //pass file as data, should be user ng-model
 				}).then(function (resp) { //upload function returns a promise
 					$scope.showphotos.show();
@@ -152,7 +155,7 @@ angular.module('users').controller('UsersController',
 				var user = {
 					id : $scope.authentication.user._id
 				};
-				$http.post('api/_admin/showphotos',user).then(function (res){
+				$http.post('api/showphotos',user).then(function (res){
 					$scope.showphotos.temp = res.data[0].imgAry;
 				},function (error){
 					$scope.error = errorResponse.data.message;
@@ -166,10 +169,10 @@ angular.module('users').controller('UsersController',
 					userid : $scope.authentication.user._id,
 					photoid : photo
 				};
-				$http.post('api/_admin/photos/'+ photo,photoquery).then(function (res){
+				$http.post('api/photos/'+ photo,photoquery).then(function (res){
 					$scope.showphotos.temp = res.data;
-					// window.location.reload('/_admin/');
-					// $location.path('/_admin/');
+					// window.location.reload('/');
+					// $location.path('/');
 				},function (error){
 					console.log("error happened");
 					$scope.error = errorResponse.data.message;

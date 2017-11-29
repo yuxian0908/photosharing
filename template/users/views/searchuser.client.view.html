@@ -1,8 +1,8 @@
 <section ng-controller="UsersController" id="searchuserview" ng-init="initFunctions.searchuser()">
     <div data-ng-show="!authentication.user">
         <p>請先登入</p>
-        <a href="/_admin/signin">Signin</a>
-        <a href="/_admin/signup">Signup</a>
+        <a href="/signin">Signin</a>
+        <a href="/signup">Signup</a>
     </div>
 
     <div data-ng-show="authentication.user">
@@ -14,7 +14,7 @@
             </div>
         </form>
         <div ng-repeat="user in searchuser.searchresult">
-            <a href="_admin/user/{{user._id}}">{{user.username}}</a>
+            <a href="/user/{{user._id}}">{{user.username}}</a>
         </div>
     </div> 
 </section>

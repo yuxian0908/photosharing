@@ -2,7 +2,7 @@
 <section ng-controller="UsersController" id="otherusersview" ng-init="initFunctions.otheruser()">
 	<div data-ng-show="authentication.user._id===otheruser._id">
 		<h1>Hello <span data-ng-bind="authentication.user.username"></span></h1>
-		<a href="/_admin/signout">Signout</a>
+		<a href="/signout">Signout</a>
 
 		<!-- photos upload -->
 		<form name="upload_form">
