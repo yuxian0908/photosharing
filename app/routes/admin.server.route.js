@@ -11,7 +11,7 @@ router.route('/getuser')
       .post(admin.getuser); 
 
 router.route('/searchuser')
-      .post(admin.searchuser); 
+      .post(admin.requiresLogin,admin.searchuser); 
 
 router.route('/getOtheruser')
       .post(admin.getOtheruser); 

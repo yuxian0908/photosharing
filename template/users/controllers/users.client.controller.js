@@ -106,15 +106,7 @@ angular.module('users').controller('UsersController',
 				};
 				$scope.searchuser.searchresult=[];
 				$http.post('api/_admin/searchuser',query).then(function (res){
-					var result = {
-						_id: res.data[0]._id,
-						username: res.data[0].username
-					};
-					$scope.searchuser.searchresult.push(result);
-					console.log($scope.searchuser.searchresult);
-
-					// window.location.reload('/_admin/');
-					// $location.path('/_admin/');
+					$scope.searchuser.searchresult = res.data;
 				},function (error){
 					console.log("error happened");
 					$scope.error = errorResponse.data.message;

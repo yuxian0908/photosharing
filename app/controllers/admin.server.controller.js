@@ -266,7 +266,10 @@ exports.deletephoto = function(req,res){
 
 exports.searchuser = function(req,res){
 	console.log(req.body.searchname);
-	User.find({'username':req.body.searchname}).exec(function(err,user){
+	var query = req.body.searchname;
+	User.find({'username':{ $regex: '.*' + query + '.*' }})
+		.select('username')
+		.exec(function(err,user){
 		if (err) {
 			// If an error occurs send the error message
 			return res.status(400).send({
