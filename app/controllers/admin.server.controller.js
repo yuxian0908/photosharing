@@ -231,7 +231,6 @@ exports.getOtheruser = function(req,res){
 };
 
 exports.test = function(req,res){
-	console.log(req.body);
 	User.findById(req.body.userid, function (err, user) {
 		if (err) {
 			// If an error occurs send the error message
