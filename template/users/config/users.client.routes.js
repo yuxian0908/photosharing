@@ -16,11 +16,10 @@ angular.module('users').config(['$routeProvider','$locationProvider',
 		}).
 		when('/_admin/signout',{
 			templateUrl: 'users/views/usersSignout.client.view.html'
+		}).
+		otherwise({
+			redirectTo: '/_admin'
 		});
-		// .
-		// otherwise({
-		// 	redirectTo: '/'
-		// });
 
 		$locationProvider.html5Mode(true);
 	}

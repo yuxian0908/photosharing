@@ -14,21 +14,20 @@ angular.module('users').controller('UsersController',
 
 			$http.post('api/_admin/getuser',users).then(function (res){
 				$scope.signin.userid = res.data[0].id;
-				// window.location.reload('/_admin/');
-				// $location.path('/_admin/');
+				$http.post('api/_admin/signin',users).then(function (res){
+					// window.location.reload('/_admin/');
+					// $location.path('/_admin/');
+					$location.path('/_admin/');
+					window.location.reload('/_admin/');
+				},function (error){
+					$scope.error = errorResponse.data.message;
+				});
 			},function (error){
 				console.log("error happened");
 				$scope.error = errorResponse.data.message;
 			});
 
-            $http.post('api/_admin/signin',users).then(function (res){
-				// window.location.reload('/_admin/');
-				// $location.path('/_admin/');
-				$location.path('/_admin/user/'+$scope.signin.userid);
-				window.location.reload('/_admin/user/'+$scope.signin.userid);
-			},function (error){
-				$scope.error = errorResponse.data.message;
-			});
+            
 		};
 
 		$scope.signout = function(){
@@ -112,9 +111,9 @@ angular.module('users').controller('UsersController',
 
 		$scope.otheruser = {
 			init: function(){
-				$scope.initFunctions.otheruserid = $routeParams.userId;
+				$scope.otheruser._id = $routeParams.userId;
 				var otheruser = {
-					_id : $scope.initFunctions.otheruserid
+					_id : $scope.otheruser._id
 				};
 				$http.post('api/_admin/getOtheruser',otheruser).then(function (res){
 					$scope.otheruser.username = res.data[0].username;
@@ -124,6 +123,20 @@ angular.module('users').controller('UsersController',
 					console.log("error happened");
 					$scope.error = errorResponse.data.message;
 				});
+			},
+			showphotos : {
+				temp: [],
+				show : function(){
+					$scope.uploadphotos.file = "";
+					var user = {
+						id : $scope.otheruser._id
+					};
+					$http.post('api/_admin/showphotos',user).then(function (res){
+						$scope.showphotos.temp = res.data[0].imgAry;
+					},function (error){
+						$scope.error = errorResponse.data.message;
+					});
+				}
 			}
 		};
 
@@ -135,7 +148,7 @@ angular.module('users').controller('UsersController',
 			},
 			otheruser : function(){
 				$scope.otheruser.init();
-				$scope.showphotos.show();
+				$scope.otheruser.showphotos.show();
 			}
 		};
 		// /init all init functions
