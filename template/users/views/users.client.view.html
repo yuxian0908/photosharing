@@ -37,7 +37,7 @@
 		<!-- show album -->
 		<div ng-repeat="photo in showphotos.temp">
 			<p>{{photo.originalname}}</p><img style="width:100px;" ng-src="{{photo.path}}" alt="{{photo.path}}">
-			<a ng-click="photohandler.test(photo._id)" href="">delete</a>
+			<a ng-click="photohandler.delete(photo._id)" href="">delete</a>
 		</div>
 		<!-- /show album -->
 	</div>

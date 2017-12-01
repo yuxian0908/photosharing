@@ -56,8 +56,7 @@ angular.module('users').controller('UsersController',
                 lastname: this.lastname,
                 email: this.email,
                 username: this.username,
-				password: this.password,
-				imgAry:[]
+				password: this.password
             };
             $http.post('api/signup',users).then(function (success){
 				window.location.reload("/");
@@ -90,11 +89,24 @@ angular.module('users').controller('UsersController',
 						id : $scope.otheruser._id
 					};
 					$http.post('api/showphotos',user).then(function (res){
-						$scope.showphotos.temp = res.data[0].imgAry;
+						console.log(res.data);
+						$scope.showphotos.temp = res.data;
 					},function (error){
 						$scope.error = errorResponse.data.message;
 					});
 				}
+				// temp: [],
+				// show : function(){
+				// 	$scope.uploadphotos.file = "";
+				// 	var user = {
+				// 		id : $scope.otheruser._id
+				// 	};
+				// 	$http.post('api/showphotos',user).then(function (res){
+				// 		$scope.showphotos.temp = res.data[0].imgAry;
+				// 	},function (error){
+				// 		$scope.error = errorResponse.data.message;
+				// 	});
+				// }
 			}
 		};
 
@@ -156,7 +168,8 @@ angular.module('users').controller('UsersController',
 					id : $scope.authentication.user._id
 				};
 				$http.post('api/showphotos',user).then(function (res){
-					$scope.showphotos.temp = res.data[0].imgAry;
+					console.log(res.data);
+					$scope.showphotos.temp = res.data;
 				},function (error){
 					$scope.error = errorResponse.data.message;
 				});
@@ -164,13 +177,20 @@ angular.module('users').controller('UsersController',
 		};
 
 		$scope.photohandler = {
-			test: function(photo){
+			delete: function(photo){
 				var photoquery = {
-					userid : $scope.authentication.user._id,
 					photoid : photo
 				};
 				$http.post('api/photos/'+ photo,photoquery).then(function (res){
-					$scope.showphotos.temp = res.data;
+					console.log(res.data);
+					console.log($scope.showphotos.temp);
+					for(var i=0;i<$scope.showphotos.temp.length;i++){
+						if ($scope.showphotos.temp[i]._id===res.data._id) {
+							$scope.showphotos.temp.splice(i,1);
+						}
+						console.log(i);
+
+					}
 					// window.location.reload('/');
 					// $location.path('/');
 				},function (error){

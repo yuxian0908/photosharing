@@ -1,6 +1,7 @@
 // Load the module dependencies
 var mongoose = require('mongoose'),
 User = require('mongoose').model('User'),
+Photo = require('mongoose').model('Photo'),
 passport = require('passport'),
 fs = require('fs'),
 multer = require('multer');
@@ -167,18 +168,21 @@ exports.uploadphotos = function(req,res){
             path:filePath
         };
 
-        User.findById(req.body.username, function (err, user) {
-            if (err){
-                var message = getErrorMessage(err);
-                req.flash('error', message);
+        // Create a new article object
+        var photo = new Photo(img);
+        
+        // Set the article's 'creator' property
+        photo.creator = req.user;
+    
+        // Try saving the article
+        photo.save(function(err) {
+            if (err) {
+                // If an error occurs send the error message
+                return res.status(400).send({
+                    message: getErrorMessage(err)
+                });
             } 
-            user.imgAry.unshift(img);
-            user.save(function (err) {
-                if (err){
-                    var message = getErrorMessage(err);
-                    req.flash('error', message);
-                } 
-            });
+            console.log('suc-->'+photo);
         });
 
             res.json({error_code:0,err_desc:null});
@@ -186,14 +190,26 @@ exports.uploadphotos = function(req,res){
 };
 
 exports.showphotos = function(req,res){
-    User.find({'_id':req.body.id}).select('imgAry').exec(function(err,imgs){
+    Photo.find()
+        .sort('-created')
+        .populate('creator')
+        .exec(function(err,img){
         if (err) {
+            console.log('err happened');
             // If an error occurs send the error message
             return res.status(400).send({
                 message: getErrorMessage(err)
             });
         } else {
-            // Send a JSON representation of the article 
+            var imgs = [];
+            for(var i=0;i<img.length;i++){
+                console.log(i);
+                if(req.body.id===img[i].creator.id){
+                    imgs.push(img[i]);
+                }
+            }
+            console.log(imgs);
+            
             res.jsonp(imgs);
         }
     });
@@ -228,37 +244,24 @@ exports.getOtheruser = function(req,res){
 };
 
 exports.deletephoto = function(req,res){
-    User.findById(req.body.userid, function (err, user) {
-        if (err) {
-            // If an error occurs send the error message
-            return res.status(400).send({
-                message: getErrorMessage(err)
-            });
-        } else {
-            var delImgPath;
-            for(var i = 0; i<user.imgAry.length; i++){
-                if(user.imgAry[i]._id == req.body.photoid){
-                    delImgPath = user.imgAry[i].path;
-                    user.imgAry.splice(i, 1);
-                    break;
+    Photo.findById(req.body.photoid)
+         .exec(function (err, photo) {
+                if (err) {
+                    // If an error occurs send the error message
+                    console.log('err happened');
+                    return res.status(400).send({
+                        message: getErrorMessage(err)
+                    });
+                } else {
+                   console.log(photo);
+                   Photo.remove({ _id: photo._id }, function (err) {
+                        if (err) return handleError(err);
+                        console.log('removed');
+                        // removed!
+                   });
+                   res.jsonp(photo);
                 }
-            }
-            user.save(function (err) {
-                if (err){
-                    var message = getErrorMessage(err);
-                    req.flash('error', message);
-                } 
             });
-            fs.unlink('./public/'+ delImgPath, function(error) {
-                if (error) {
-                    throw error;
-                }
-                console.log('Deleted '+req.body.photoid);
-            });
-            
-            res.jsonp(user.imgAry);
-        }
-    });
 };
 
 exports.searchuser = function(req,res){
