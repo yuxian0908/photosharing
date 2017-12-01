@@ -6,22 +6,22 @@
 
 		<!-- photos upload -->
 		<form name="upload_form">
-                Single Image with validations
-			<input type="file" ngf-select ng-model="uploadphotos.file" name="file" 
-			ngf-pattern="'image/*'" accept="image/*" ngf-max-size="20MB"/>
+            Single Image with validations
+            <input type="file" ngf-select ng-model="uploadphotos.file" name="file" 
+            ngf-pattern="'image/*'" accept="image/*" ngf-max-size="20MB"/>
 
             Image thumbnail: <img style="width:100px;" ng-show="!!uploadphotos.file" ngf-thumbnail="uploadphotos.file || '/thumb.jpg'"/>
-			
-			<i ng-show="upload_form.file.$error.required">*required</i><br>
+            
+            <i ng-show="upload_form.file.$error.required">*required</i><br>
             <i ng-show="upload_form.file.$error.maxSize">File too large 
-            {{up.file.size / 1000000|number:1}}MB: max 20M</i>
-           <!--  Multiple files
+            {{uploadphotos.file.size / 1000000|number:1}}MB: max 20M</i>
+            <!--  Multiple files
             <div class="button" ngf-select ng-model="up.files" ngf-multiple="true">Select</div>
             Drop files: <div ngf-drop ng-model="up.files" class="drop-box">Drop</div> -->
             <button type="submit" ng-click="uploadphotos.submit()">submit</button>
-            <p>{{up.progress}}</p>
-		</form>
-		<!-- /photos upload -->
+            <p>{{uploadphotos.progress}}</p>
+        </form>
+        <!-- /photos upload -->
     </div>
 
 		
@@ -33,6 +33,7 @@
         
 		<div ng-repeat="photo in showphotos.temp">
 			<p>{{photo.originalname}}</p><img style="width:100px;" ng-src="{{photo.path}}" alt="{{photo.path}}">
+            <a ng-click="photohandler.delete(photo._id)" data-ng-show="authentication.user._id===otheruser._id" href="">delete</a>
         </div>
     </div>
 		<!-- /show album -->
