@@ -254,11 +254,19 @@ exports.deletephoto = function(req,res){
                     });
                 } else {
                    console.log(photo);
+                   var delImgPath = photo.path;
+                   console.log(delImgPath);
                    Photo.remove({ _id: photo._id }, function (err) {
                         if (err) return handleError(err);
                         console.log('removed');
                         // removed!
                    });
+
+                   fs.unlink('./public/'+ delImgPath, function(error) {
+                        if (error) {
+                            throw error;
+                        }
+                    });
                    res.jsonp(photo);
                 }
             });
