@@ -75,10 +75,10 @@ app.use(Passport.session());
 var router = express.Router();
 var index = require('./app/routes/index.server.route');
 var admin = require('./app/routes/admin.server.route');
-app.use('/', index);
-app.use('/api/', index);
 app.use('/_admin', admin);
 app.use('/api/_admin', admin);
+app.use('/', index);
+app.use('/api/', index);
 
 app.all('/_admin/*', function(req, res, next) {
   // Just send the index.html for other files to support HTML5Mode

@@ -95,18 +95,6 @@ angular.module('users').controller('UsersController',
 						$scope.error = errorResponse.data.message;
 					});
 				}
-				// temp: [],
-				// show : function(){
-				// 	$scope.uploadphotos.file = "";
-				// 	var user = {
-				// 		id : $scope.otheruser._id
-				// 	};
-				// 	$http.post('api/showphotos',user).then(function (res){
-				// 		$scope.showphotos.temp = res.data[0].imgAry;
-				// 	},function (error){
-				// 		$scope.error = errorResponse.data.message;
-				// 	});
-				// }
 			}
 		};
 

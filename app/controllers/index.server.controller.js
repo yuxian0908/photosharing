@@ -182,7 +182,6 @@ exports.uploadphotos = function(req,res){
                     message: getErrorMessage(err)
                 });
             } 
-            console.log('suc-->'+photo);
         });
 
             res.json({error_code:0,err_desc:null});
@@ -203,12 +202,10 @@ exports.showphotos = function(req,res){
         } else {
             var imgs = [];
             for(var i=0;i<img.length;i++){
-                console.log(i);
                 if(req.body.id===img[i].creator.id){
                     imgs.push(img[i]);
                 }
             }
-            console.log(imgs);
             
             res.jsonp(imgs);
         }
@@ -253,9 +250,7 @@ exports.deletephoto = function(req,res){
                         message: getErrorMessage(err)
                     });
                 } else {
-                   console.log(photo);
                    var delImgPath = photo.path;
-                   console.log(delImgPath);
                    Photo.remove({ _id: photo._id }, function (err) {
                         if (err) return handleError(err);
                         console.log('removed');
@@ -273,7 +268,6 @@ exports.deletephoto = function(req,res){
 };
 
 exports.searchuser = function(req,res){
-    console.log(req.body.searchname);
     var query = req.body.searchname;
     User.find({'username':{ $regex: '.*' + query + '.*' }})
         .select('username')
@@ -284,8 +278,6 @@ exports.searchuser = function(req,res){
                 message: getErrorMessage(err)
             });
         } else {
-            // Send a JSON representation of the article 
-            console.log(user);
             res.jsonp(user);
         }
     });

@@ -37,5 +37,4 @@ exports.renderadmin = function(req,res){
     res.render('admin',{
 		user: JSON.stringify(req.user)||"null"
 	});
-    // res.render('index', { title: 'Express' });
 };

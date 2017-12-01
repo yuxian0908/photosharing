@@ -28,8 +28,9 @@ grunt.initConfig({
         },
     },
     clean: {
-        all: ['public/users.js','public/users.min.js','public/angular.js','public/**/**/*.html'],
-        js: ['public/users.js','public/angular.js'],        
+        all: ['public/script.js','public/script.min.js',
+                'public/angular.js','public/**/**/*.html'],
+        js: ['public/script.js','public/angular.js'],        
     },
     copy: {
         main: {
@@ -49,15 +50,15 @@ grunt.initConfig({
                     'lib/ng-file-upload/ng-file-upload-shim.min.js','lib/ng-file-upload/ng-file-upload.min.js'],
             dest: 'public/angular.js',
         },
-        users: {
-            src: ['template/users/users.client.module.js','template/users/services/*','template/users/config/*','template/users/controllers/*'],
-            dest: 'public/users.js',
+        script: {
+            src: ['template/**/*.client.module.js','template/**/services/*','template/**/config/*','template/**/controllers/*'],
+            dest: 'public/script.js',
         },
     },
     uglify: {
         my_target: {
             files: {
-                'public/users.min.js': ['public/users.js'],
+                'public/script.min.js': ['public/script.js'],
                 'public/angular.min.js': ['public/angular.js'],
             }
         }
