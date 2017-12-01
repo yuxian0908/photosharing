@@ -38,3 +38,74 @@ exports.renderadmin = function(req,res){
 		user: JSON.stringify(req.user)||"null"
 	});
 };
+
+exports.adminUser = function(req,res,next){
+	console.log(req.user.role);
+	var role = req.user.role;
+	var isAdmin = false;
+	for(var i=0;i<role.length;i++){
+		if(role[i]==="admin"){
+			isAdmin = true;
+		}
+	}
+	if(isAdmin){
+		next();
+	}else{
+		return res.status(401).send({
+			message: 'User has no admin role'
+		});
+	}
+};
+
+exports.giveAdmin = function(req,res){
+	User.findById(req.body.id,function(err,user){
+        if (err) {
+            // If an error occurs send the error message
+            return res.status(400).send({
+                message: getErrorMessage(err)
+            });
+        } else {
+			user.role = ["user","admin"];
+			user.save(function (err) {
+			  if (err){
+				return res.status(400).send({
+					message: getErrorMessage(err)
+				  });
+			  } 
+			});
+            res.jsonp(user);
+        }
+    });
+};
+
+exports.eraseAdmin = function(req,res){
+	User.findById(req.body.id,function(err,user){
+        if (err) {
+            // If an error occurs send the error message
+            return res.status(400).send({
+                message: getErrorMessage(err)
+            });
+        } else {
+			user.role = ["user"];
+			user.save(function (err) {
+			  if (err){
+				return res.status(400).send({
+					message: getErrorMessage(err)
+				  });
+			  } 
+			});
+            res.jsonp(user);
+        }
+    });
+};
+
+exports.getusers = function(req,res){
+	User.find({}, function(err,users){
+			if(err){
+				return res.status(400).send({
+					message: getErrorMessage(err)
+				});
+			}
+			res.jsonp(users);
+		});
+};

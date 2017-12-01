@@ -8,30 +8,30 @@ multer = require('multer');
 
 // Create a new error handling controller method
 var getErrorMessage = function(err) {
-// Define the error message variable
-var message = '';
+    // Define the error message variable
+    var message = '';
 
-// If an internal MongoDB error occurs get the error message
-if (err.code) {
-    switch (err.code) {
-        // If a unique index error occurs set the message error
-        case 11000:
-        case 11001:
-            message = 'Username already exists';
-            break;
-        // If a general error occurs set the message error
-        default:
-            message = 'Something went wrong';
+    // If an internal MongoDB error occurs get the error message
+    if (err.code) {
+        switch (err.code) {
+            // If a unique index error occurs set the message error
+            case 11000:
+            case 11001:
+                message = 'Username already exists';
+                break;
+            // If a general error occurs set the message error
+            default:
+                message = 'Something went wrong';
+        }
+    } else {
+        // Grab the first error message from a list of possible errors
+        for (var errName in err.errors) {
+            if (err.errors[errName].message) message = err.errors[errName].message;
+        }
     }
-} else {
-    // Grab the first error message from a list of possible errors
-    for (var errName in err.errors) {
-        if (err.errors[errName].message) message = err.errors[errName].message;
-    }
-}
 
-// Return the message error
-return message;
+    // Return the message error
+    return message;
 };
 
 exports.renderindex = function(req,res){

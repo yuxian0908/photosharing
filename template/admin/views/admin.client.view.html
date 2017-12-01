@@ -1,4 +1,18 @@
 <!-- The admin view -->
-<section>
+<section ng-controller="adminController" id="adminview" ng-init="initFunctions.showusers()">
 	<h1>welcome to admin</h1>
+	<form data-ng-submit="giveAdmin.add()" novalidate>
+		<div class="form-group">
+			<label>id:</label>
+			<input type="text" name="userid" data-ng-model="giveAdmin.id"/>
+		</div>
+	</form>
+	<button class="btn btn-default" ng-click="giveAdmin.add()">addAdmin</button>
+	<button class="btn btn-default" ng-click="giveAdmin.erase()">eraseAdmin</button>
+	<hr>
+
+	<div ng-repeat="user in showusers.users">
+		<p>{{user.username}}  {{user.role}}</p>
+		<a href="/user/{{user._id}}">{{user._id}}</a>
+	</div>
 </section>

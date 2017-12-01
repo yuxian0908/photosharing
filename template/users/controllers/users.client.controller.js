@@ -56,7 +56,8 @@ angular.module('users').controller('UsersController',
                 lastname: this.lastname,
                 email: this.email,
                 username: this.username,
-				password: this.password
+				password: this.password,
+				role:["user"]
             };
             $http.post('api/signup',users).then(function (success){
 				window.location.reload("/");

@@ -22,6 +22,7 @@ var UserSchema = new Schema({
 		// Trim the 'username' field
 		trim: true
 	},
+	role:[String],
 	password: {
 		type: String,
 		// Validate the 'password' value length

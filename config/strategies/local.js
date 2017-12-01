@@ -13,11 +13,13 @@ module.exports = function() {
 		}, function(err, user) {
 			// If an error occurs continue to the next middleware
 			if (err) {
+				console.log('!not found');
 				return done(err);
 			}
 			
 			// If a user was not found, continue to the next middleware with an error message
 			if (!user) {
+				console.log('!user');
 				return done(null, false, {
 					message: 'Unknown user'
 				});
@@ -25,6 +27,7 @@ module.exports = function() {
 
 			// If the passport is incorrect, continue to the next middleware with an error message
 			if (!user.authenticate(password)) {
+				console.log('invalid password');
 				return done(null, false, {
 					message: 'Invalid password'
 				});
