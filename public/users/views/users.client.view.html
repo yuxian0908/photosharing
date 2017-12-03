@@ -11,6 +11,7 @@
 		<h1>Hello <span data-ng-bind="authentication.user.username"></span></h1>
 		<a href="/signout">Signout</a>
 		<a href="/searchuser">搜尋用戶</a>
+		<a href="/cart">cart</a>
 		
 
 		<!-- photos upload -->
@@ -32,13 +33,21 @@
 		</form>
 		<!-- /photos upload -->
 
-
+		<!-- cart -->
+		<div ng-repeat="photo in cart.items track by $index">
+			<p>{{photo.originalname}}</p>
+		</div>
+		<!-- /cart -->
 		
 		<!-- show album -->
 		<div ng-repeat="photo in showphotos.temp">
-			<p>{{photo.originalname}}</p><img style="width:100px;" ng-src="{{photo.path}}" alt="{{photo.path}}">
+			<p>{{photo.originalname}}</p>
+			<a ng-click="cart.addToCart(photo._id)"><img style="width:100px;" ng-src="{{photo.path}}" alt="{{photo.path}}"></a>
 			<a ng-click="photohandler.delete(photo._id)" href="">delete</a>
 		</div>
 		<!-- /show album -->
+
+
+
 	</div>
 </section>

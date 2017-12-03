@@ -55,7 +55,7 @@ app.use(session({
   saveUninitialized: true,
   resave: true,
   secret: config.sessionSecret,
-  cookie: { maxAge: 60 * 1000 }
+  cookie: { maxAge: 60 * 10000 }
 }));
 
 // Configure the flash messages middleware
@@ -87,7 +87,7 @@ app.all('/_admin/*', function(req, res, next) {
 
 app.all('/*', function(req, res, next) {
   // Just send the index.html for other files to support HTML5Mode
-  res.render('index.jade', { root: './app/views',title:'test'});
+  res.render('index.jade', { root: './app/views',title:'test',user:JSON.stringify(req.user)});
 });
 
 

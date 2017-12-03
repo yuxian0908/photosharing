@@ -188,12 +188,35 @@ angular.module('users').controller('UsersController',
 				});
 			}
 		};
+
+		$scope.cart = {
+			init: function(){
+				$http.get('api/addToCart').then(function (res){
+					$scope.cart.items = res.data.items;
+					console.log(res.data.items);
+				},function (error){
+					$scope.error = errorResponse.data.message;
+				});
+			},
+			addToCart : function(id){
+				var photoid = {
+					photoid : id
+				};
+				$http.post('api/addToCart',photoid).then(function (res){
+					$scope.cart.items = res.data.items;
+					console.log(res.data.items);
+				},function (error){
+					$scope.error = errorResponse.data.message;
+				});
+			}
+		};
 		
 
 		// init all init functions
 		$scope.initFunctions = {
 			userpage : function(){
 				$scope.showphotos.show();
+				$scope.cart.addToCart();
 			},
 			otheruser : function(){
 				$scope.otheruser.init();
@@ -201,6 +224,9 @@ angular.module('users').controller('UsersController',
 			},
 			searchuser: function(){
 				$scope.searchuser.init();
+			},
+			cart: function(){
+				$scope.cart.init();
 			}
 		};
 		// /init all init functions

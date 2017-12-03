@@ -1,0 +1,20 @@
+<!-- The users view -->
+<section ng-controller="UsersController" id="cart" ng-init="initFunctions.cart()">
+	<!-- If the user is not authenticated show the authentication link -->
+	<div data-ng-show="!authentication.user">
+		<a href="/signin">Signin</a>
+		<a href="/signup">Signup</a>
+		
+	</div>
+	<!-- Otherwise, show the user details and application links -->
+	<div data-ng-show="authentication.user">
+
+		<!-- show album -->
+		<div ng-repeat="photo in cart.items track by $index">
+            <p>{{photo.originalname}}</p>
+            <img style="width:100px;" ng-src="{{photo.path}}" alt="{{photo.path}}">
+			<a ng-click="" href="">delete from cart</a>
+		</div>
+		<!-- /show album -->
+	</div>
+</section>

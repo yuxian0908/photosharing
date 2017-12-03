@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var index = require('../controllers/index.server.controller');
+var cart = require('../controllers/cart.server.controller');
 var passport = require('passport');
 
 /* GET home page. */
@@ -42,5 +43,10 @@ router.route('/showphotos')
 
 // Set up the 'signout' route
 router.post('/signout', index.signout);
+
+// 購物車功能
+router.route('/addToCart')
+      .post(cart.addToCart,cart.returnCart)
+      .get(cart.returnCart);
 
 module.exports = router;

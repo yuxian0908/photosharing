@@ -20,6 +20,9 @@ angular.module('users').config(['$routeProvider','$locationProvider',
 		when('/signout',{
 			templateUrl: 'users/views/usersSignout.client.view.html'
 		}).
+		when('/cart',{
+			templateUrl: 'users/views/cart.client.view.html'
+		}).
 		otherwise({
 			redirectTo: '/'
 		});
