@@ -24,6 +24,12 @@
         <!-- /photos upload -->
     </div>
 
+    <!-- cart -->
+    <div ng-repeat="photo in cart.items track by $index"
+            data-ng-show="authentication.user._id">
+        <p>{{photo.originalname}}</p>
+    </div>
+    <!-- /cart -->
 		
         <!-- show album -->
     <div>
@@ -32,7 +38,10 @@
         </div>
         
 		<div ng-repeat="photo in showphotos.temp">
-			<p>{{photo.originalname}}</p><img style="width:100px;" ng-src="{{photo.path}}" alt="{{photo.path}}">
+            <p>{{photo.originalname}}</p>
+            <a ng-click="cart.addToCart(photo._id)">
+                <img style="width:100px;" ng-src="{{photo.path}}" alt="{{photo.path}}">
+            </a>
             <a ng-click="photohandler.delete(photo._id)" data-ng-show="authentication.user._id===otheruser._id" href="">delete</a>
         </div>
     </div>

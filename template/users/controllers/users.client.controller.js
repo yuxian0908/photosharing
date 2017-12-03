@@ -227,6 +227,7 @@ angular.module('users').controller('UsersController',
 				$scope.cart.addToCart();
 			},
 			otheruser : function(){
+				$scope.cart.init();
 				$scope.otheruser.init();
 				$scope.otheruser.showphotos.show();
 			},
