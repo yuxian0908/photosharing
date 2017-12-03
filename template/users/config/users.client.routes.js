@@ -23,6 +23,9 @@ angular.module('users').config(['$routeProvider','$locationProvider',
 		when('/cart',{
 			templateUrl: 'users/views/cart.client.view.html'
 		}).
+		when('/album',{
+			templateUrl: 'users/views/album.client.view.html'
+		}).
 		otherwise({
 			redirectTo: '/'
 		});

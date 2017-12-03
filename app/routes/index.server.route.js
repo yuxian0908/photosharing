@@ -55,4 +55,8 @@ router.route('/deleteFromCart')
 router.route('/submitCart')
       .post(cart.submitCart,cart.returnCart);
 
+// 相簿功能
+router.route('/getAlbum')
+      .get(index.getAlbum);
+
 module.exports = router;

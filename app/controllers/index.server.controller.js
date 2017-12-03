@@ -4,7 +4,8 @@ User = require('mongoose').model('User'),
 Photo = require('mongoose').model('Photo'),
 passport = require('passport'),
 fs = require('fs'),
-multer = require('multer');
+multer = require('multer'),
+Album = require('mongoose').model('Album');
 
 // 錯誤處理器
 var getErrorMessage = function(err) {
@@ -326,6 +327,21 @@ exports.deletephoto = function(req,res){
                    res.jsonp(photo);
                 }
             });
+};
+
+exports.getAlbum = function(req,res){
+    Album.find({'owner':req.user})
+    .populate('img')
+    .exec(function(err,albums){
+        if (err) {
+            // If an error occurs send the error message
+            return res.status(400).send({
+                message: getErrorMessage(err)
+            });
+        } else {
+            res.jsonp(albums);
+        }
+    });
 };
 // /用戶主頁照片
 

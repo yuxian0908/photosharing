@@ -233,6 +233,18 @@ angular.module('users').controller('UsersController',
 			}
 		};
 		
+		$scope.albumpage = {
+			init : function(){
+				$http.get('api/getAlbum').then(function (res){
+					$scope.albumpage.albums = res.data;
+				},function (error){
+					$scope.error = errorResponse.data.message;
+				});
+			},
+			showphotos : function(nth){
+				$scope.albumpage.imgs = $scope.albumpage.albums[nth].img;
+			}
+		};
 
 		// init all init functions
 		$scope.initFunctions = {
@@ -250,6 +262,9 @@ angular.module('users').controller('UsersController',
 			},
 			cart: function(){
 				$scope.cart.init();
+			},
+			albumpage:function(){
+				$scope.albumpage.init();
 			}
 		};
 		// /init all init functions
