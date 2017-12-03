@@ -231,6 +231,26 @@ exports.uploadphotos = function(req,res){
             } 
         });
 
+        User.findById(req.user._id,function(err,user){
+            if (err) {
+                // If an error occurs send the error message
+                return res.status(400).send({
+                    message: getErrorMessage(err)
+                });
+            } else {
+                Photo.find({"creator":req.user._id}).exec(function(err,imgs){
+                    user.imgs = imgs;
+                    user.save(function (err) {
+                        if (err){
+                        return res.status(400).send({
+                            message: getErrorMessage(err)
+                            });
+                        } 
+                    });
+                });
+            }
+        });
+
             res.json({error_code:0,err_desc:null});
     });
 };
@@ -275,6 +295,28 @@ exports.deletephoto = function(req,res){
                         console.log('removed');
                         // removed!
                    });
+                   User.findById(req.user._id,function(err,user){
+                        if (err) {
+                            // If an error occurs send the error message
+                            return res.status(400).send({
+                                message: getErrorMessage(err)
+                            });
+                        } else {
+                            for(var i=0;i<user.imgs.length;i++){
+                                if(req.body.photoid==user.imgs[i]){
+                                    user.imgs.splice(i,1);
+                                    console.log('user model img removed');
+                                }
+                            }
+                            user.save(function (err) {
+                                if (err){
+                                return res.status(400).send({
+                                    message: getErrorMessage(err)
+                                    });
+                                } 
+                            });
+                        }
+                    });
 
                    fs.unlink('./public/'+ delImgPath, function(error) {
                         if (error) {

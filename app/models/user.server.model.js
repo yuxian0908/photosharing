@@ -43,7 +43,7 @@ var UserSchema = new Schema({
 	},
 	providerId: String,
 	providerData: {},
-	img:[{
+	imgs:[{
 		type: Schema.ObjectId,
 		ref: 'Photo'
 	}],
