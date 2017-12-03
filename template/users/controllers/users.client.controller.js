@@ -193,7 +193,6 @@ angular.module('users').controller('UsersController',
 			init: function(){
 				$http.get('api/addToCart').then(function (res){
 					$scope.cart.items = res.data.items;
-					console.log(res.data.items);
 				},function (error){
 					$scope.error = errorResponse.data.message;
 				});
@@ -204,7 +203,16 @@ angular.module('users').controller('UsersController',
 				};
 				$http.post('api/addToCart',photoid).then(function (res){
 					$scope.cart.items = res.data.items;
-					console.log(res.data.items);
+				},function (error){
+					$scope.error = errorResponse.data.message;
+				});
+			},
+			deleteFromCart : function(id){
+				var photoid = {
+					photoid : id
+				};
+				$http.post('api/deleteFromCart',photoid).then(function (res){
+					$scope.cart.items = res.data.items;
 				},function (error){
 					$scope.error = errorResponse.data.message;
 				});

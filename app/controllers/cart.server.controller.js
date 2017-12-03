@@ -26,8 +26,26 @@ exports.addToCart = function(req,res,next){
     findAndaddPhoto(req.body.photoid, req, res, next);
 };
 
+function findAnddeletePhoto(pho,req,res,next){
+    var cart = req.session.cart ;
+    for(var i=0;i<cart.items.length;i++){
+        if(pho===cart.items[i]._id){
+            cart.items.splice(i,1);
+            req.session.cart = cart;
+            next();
+        }
+    }
+    
+}
+
+exports.deleteFromCart = function(req,res,next){
+    findAnddeletePhoto(req.body.photoid, req, res, next);
+};
+
+
+
+
 exports.returnCart = function(req,res){
     var cart = req.session.cart;
-    console.log(req.session.cart);
     res.jsonp(cart);
 };

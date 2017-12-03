@@ -49,4 +49,7 @@ router.route('/addToCart')
       .post(cart.addToCart,cart.returnCart)
       .get(cart.returnCart);
 
+router.route('/deleteFromCart')
+      .post(cart.deleteFromCart,cart.returnCart);
+
 module.exports = router;

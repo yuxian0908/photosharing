@@ -13,7 +13,7 @@
 		<div ng-repeat="photo in cart.items track by $index">
             <p>{{photo.originalname}}</p>
             <img style="width:100px;" ng-src="{{photo.path}}" alt="{{photo.path}}">
-			<a ng-click="" href="">delete</a>
+			<a ng-click="cart.deleteFromCart(photo._id)" href="">delete from cart</a>
 		</div>
 		<!-- /show album -->
 	</div>
