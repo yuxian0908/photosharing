@@ -11,6 +11,7 @@
             <!-- show album -->
             <div ng-repeat="album in albumpage.albums track by $index">
                 <a ng-click="albumpage.showphotos($index)" href="">{{album.name}}</a>
+                <a ng-click="albumpage.deleteAlbum($index)" href="">刪除{{album.name}}</a>
             </div>
             <div ng-repeat="photo in albumpage.imgs track by $index">
                 	<p>{{photo.originalname}}</p>

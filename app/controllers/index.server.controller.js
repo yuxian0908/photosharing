@@ -328,7 +328,9 @@ exports.deletephoto = function(req,res){
                 }
             });
 };
+// /用戶主頁照片
 
+// 相簿
 exports.getAlbum = function(req,res){
     Album.find({'owner':req.user})
     .populate('img')
@@ -339,9 +341,20 @@ exports.getAlbum = function(req,res){
                 message: getErrorMessage(err)
             });
         } else {
+            console.log(albums);
             res.jsonp(albums);
         }
     });
 };
-// /用戶主頁照片
+
+exports.deleteAlbum = function(req,res){
+    Album.remove({ _id: req.body.id }, function (err) {
+        if (err) return handleError(err);
+        console.log('removed');
+        // removed!
+    });
+    res.jsonp();
+};
+// /相簿
+
 

@@ -237,12 +237,26 @@ angular.module('users').controller('UsersController',
 			init : function(){
 				$http.get('api/getAlbum').then(function (res){
 					$scope.albumpage.albums = res.data;
+					console.log(res.data);
 				},function (error){
 					$scope.error = errorResponse.data.message;
 				});
 			},
 			showphotos : function(nth){
 				$scope.albumpage.imgs = $scope.albumpage.albums[nth].img;
+			},
+			deleteAlbum : function(nth){
+				var deleteAlbum = {
+					id : $scope.albumpage.albums[nth]._id
+				};
+				console.log($scope.albumpage.albums[nth]);
+				$http.post('api/deleteAlbum',deleteAlbum).then(function (res){
+					console.log(res.data);
+					alert("delete"+$scope.albumpage.albums.name);
+					$scope.albumpage.albums.splice(nth,1);
+				},function (error){
+					$scope.error = errorResponse.data.message;
+				});
 			}
 		};
 

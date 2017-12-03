@@ -59,4 +59,7 @@ router.route('/submitCart')
 router.route('/getAlbum')
       .get(index.getAlbum);
 
+router.route('/deleteAlbum')
+      .post(index.deleteAlbum);
+
 module.exports = router;
