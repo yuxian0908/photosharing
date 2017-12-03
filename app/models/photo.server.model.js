@@ -1,7 +1,6 @@
 var mongoose = require('mongoose'),
     Schema = mongoose.Schema;
 
-// Define a new 'UserSchema'
 var PhotoSchema = new Schema({
     created: {
 		type: Date,
@@ -15,5 +14,4 @@ var PhotoSchema = new Schema({
 	}
 });
 
-// Create the 'User' model out of the 'UserSchema'
 mongoose.model('Photo', PhotoSchema);

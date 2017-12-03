@@ -218,8 +218,15 @@ angular.module('users').controller('UsersController',
 				});
 			},
 			submitCart : function(){
-				$http.post('api/submitCart').then(function (res){
+				var album = {
+					albumname : $scope.cart.albumname
+				};
+				$http.post('api/submitCart',album).then(function (res){
 					console.log("submit success");
+					$scope.cart.init();
+					alert("submit success");
+					$location.path('/');
+                    window.location.reload("/");
 				},function (error){
 					$scope.error = errorResponse.data.message;
 				});

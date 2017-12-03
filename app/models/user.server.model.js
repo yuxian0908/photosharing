@@ -47,6 +47,10 @@ var UserSchema = new Schema({
 		type: Schema.ObjectId,
 		ref: 'Photo'
 	}],
+	albums:[{
+		type: Schema.ObjectId,
+		ref: 'Album'
+	}],
 	created: {
 		type: Date,
 		// Create a default 'created' value

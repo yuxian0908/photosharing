@@ -53,6 +53,6 @@ router.route('/deleteFromCart')
       .post(cart.deleteFromCart,cart.returnCart);
 
 router.route('/submitCart')
-      .post(cart.submitCart);
+      .post(cart.submitCart,cart.returnCart);
 
 module.exports = router;
