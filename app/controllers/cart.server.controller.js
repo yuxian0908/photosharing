@@ -42,10 +42,11 @@ exports.deleteFromCart = function(req,res,next){
     findAnddeletePhoto(req.body.photoid, req, res, next);
 };
 
-
-
-
 exports.returnCart = function(req,res){
     var cart = req.session.cart;
     res.jsonp(cart);
+};
+
+exports.submitCart = function(req,res){
+    console.log(req.session);
 };

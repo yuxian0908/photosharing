@@ -52,4 +52,7 @@ router.route('/addToCart')
 router.route('/deleteFromCart')
       .post(cart.deleteFromCart,cart.returnCart);
 
+router.route('/submitCart')
+      .post(cart.submitCart);
+
 module.exports = router;

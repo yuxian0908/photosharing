@@ -9,6 +9,7 @@
 	<!-- Otherwise, show the user details and application links -->
 	<div data-ng-show="authentication.user">
 
+        <a ng-click="cart.submitCart()" href="">加進相簿</a>
 		<!-- show album -->
 		<div ng-repeat="photo in cart.items track by $index">
             <p>{{photo.originalname}}</p>

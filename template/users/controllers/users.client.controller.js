@@ -216,6 +216,13 @@ angular.module('users').controller('UsersController',
 				},function (error){
 					$scope.error = errorResponse.data.message;
 				});
+			},
+			submitCart : function(){
+				$http.post('api/submitCart').then(function (res){
+					console.log("submit success");
+				},function (error){
+					$scope.error = errorResponse.data.message;
+				});
 			}
 		};
 		
