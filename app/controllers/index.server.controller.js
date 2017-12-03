@@ -6,7 +6,7 @@ passport = require('passport'),
 fs = require('fs'),
 multer = require('multer');
 
-// Create a new error handling controller method
+// 錯誤處理器
 var getErrorMessage = function(err) {
     // Define the error message variable
     var message = '';
@@ -38,7 +38,7 @@ exports.renderindex = function(req,res){
     res.render('index', { 	user: JSON.stringify(req.user)||"null" });
 };
 
-// Create a new controller method that creates new 'regular' users
+// 用戶註冊登入機制
 exports.signup = function(req, res, next) {
     // If user is not connected, create and login a new user, otherwise redirect the user back to the main application page
     if (!req.user) {
@@ -77,7 +77,6 @@ exports.signup = function(req, res, next) {
     }
 };
 
-// Create a new controller method that creates new 'OAuth' users
 exports.saveOAuthUserProfile = function(req, profile, done) {
     // Try finding a user document that was registered using the current OAuth provider
     User.findOne({
@@ -115,7 +114,6 @@ exports.saveOAuthUserProfile = function(req, profile, done) {
     });
 };
 
-// Create a new controller method for signing out
 exports.signout = function(req, res) {
     req.session.destroy(function() {
         res.clearCookie('connect.sid');
@@ -123,8 +121,7 @@ exports.signout = function(req, res) {
         res.redirect('/');
     });
 };
-
-// Create a new controller middleware that is used to authorize authenticated operations 
+ 
 exports.requiresLogin = function(req, res, next) {
     // If a user is not authenticated send the appropriate error message
     if (!req.isAuthenticated()) {
@@ -136,7 +133,57 @@ exports.requiresLogin = function(req, res, next) {
     // Call the next middleware
     next();
 };
+// /用戶註冊登入機制
 
+
+// 查詢其他用戶
+exports.getuser = function(req,res){
+    User.find({'username':req.body.username}).select('_id').exec(function(err,userid){
+        if (err) {
+            // If an error occurs send the error message
+            return res.status(400).send({
+                message: getErrorMessage(err)
+            });
+        } else {
+            // Send a JSON representation of the article 
+            res.jsonp(userid);
+        }
+    });
+};
+
+exports.getOtheruser = function(req,res){
+    User.find({'_id':req.body._id}).select('username').exec(function(err,user){
+        if (err) {
+            // If an error occurs send the error message
+            return res.status(400).send({
+                message: getErrorMessage(err)
+            });
+        } else {
+            // Send a JSON representation of the article 
+            res.jsonp(user);
+        }
+    });
+};
+
+exports.searchuser = function(req,res){
+    var query = req.body.searchname;
+    User.find({'username':{ $regex: '.*' + query + '.*' }})
+        .select('username')
+        .exec(function(err,user){
+        if (err) {
+            // If an error occurs send the error message
+            return res.status(400).send({
+                message: getErrorMessage(err)
+            });
+        } else {
+            res.jsonp(user);
+        }
+    });
+};
+// /查詢其他用戶
+
+
+// 用戶主頁照片
 exports.uploadphotos = function(req,res){
 
     var storage = multer.diskStorage({ //multers disk storage settings
@@ -168,13 +215,13 @@ exports.uploadphotos = function(req,res){
             path:filePath
         };
 
-        // Create a new article object
+        // Create a new photo object
         var photo = new Photo(img);
         
-        // Set the article's 'creator' property
+        // Set the photo's 'creator' property
         photo.creator = req.user;
     
-        // Try saving the article
+        // Try saving the photo
         photo.save(function(err) {
             if (err) {
                 // If an error occurs send the error message
@@ -212,34 +259,6 @@ exports.showphotos = function(req,res){
     });
 };
 
-exports.getuser = function(req,res){
-    User.find({'username':req.body.username}).select('_id').exec(function(err,userid){
-        if (err) {
-            // If an error occurs send the error message
-            return res.status(400).send({
-                message: getErrorMessage(err)
-            });
-        } else {
-            // Send a JSON representation of the article 
-            res.jsonp(userid);
-        }
-    });
-};
-
-exports.getOtheruser = function(req,res){
-    User.find({'_id':req.body._id}).select('username').exec(function(err,user){
-        if (err) {
-            // If an error occurs send the error message
-            return res.status(400).send({
-                message: getErrorMessage(err)
-            });
-        } else {
-            // Send a JSON representation of the article 
-            res.jsonp(user);
-        }
-    });
-};
-
 exports.deletephoto = function(req,res){
     Photo.findById(req.body.photoid)
          .exec(function (err, photo) {
@@ -266,19 +285,5 @@ exports.deletephoto = function(req,res){
                 }
             });
 };
+// /用戶主頁照片
 
-exports.searchuser = function(req,res){
-    var query = req.body.searchname;
-    User.find({'username':{ $regex: '.*' + query + '.*' }})
-        .select('username')
-        .exec(function(err,user){
-        if (err) {
-            // If an error occurs send the error message
-            return res.status(400).send({
-                message: getErrorMessage(err)
-            });
-        } else {
-            res.jsonp(user);
-        }
-    });
-};

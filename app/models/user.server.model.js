@@ -43,6 +43,10 @@ var UserSchema = new Schema({
 	},
 	providerId: String,
 	providerData: {},
+	img:[{
+		type: Schema.ObjectId,
+		ref: 'Photo'
+	}],
 	created: {
 		type: Date,
 		// Create a default 'created' value
