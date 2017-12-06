@@ -14,4 +14,17 @@ var PhotoSchema = new Schema({
 	}
 });
 
+PhotoSchema.post('remove', function (doc) {    
+    var This = this;
+    this.model('User').update(
+        { _id: This.creator },
+        { $pull: { imgs: This._id } },
+        { multi: true },
+        function(err,result){
+            if(err) console.log('err');
+            console.log("del suc");
+        }
+    );
+});
+
 mongoose.model('Photo', PhotoSchema);

@@ -291,34 +291,15 @@ exports.deletephoto = function(req,res){
                     });
                 } else {
                    var delImgPath = photo.path;
-                   Photo.remove({ _id: photo._id }, function (err) {
-                        if (err) return handleError(err);
-                        console.log('removed');
-                        // removed!
-                   });
-                   User.findById(req.user._id,function(err,user){
-                        if (err) {
-                            // If an error occurs send the error message
-                            return res.status(400).send({
-                                message: getErrorMessage(err)
+                   Photo.findById(photo._id)
+                        .exec(function(err,photo){
+                            if(err)console.log('find photo err');
+                            photo.remove(function(err){
+                                if (err) return handleError(err);
+                                console.log('removed');
                             });
-                        } else {
-                            for(var i=0;i<user.imgs.length;i++){
-                                if(req.body.photoid==user.imgs[i]){
-                                    user.imgs.splice(i,1);
-                                    console.log('user model img removed');
-                                }
-                            }
-                            user.save(function (err) {
-                                if (err){
-                                return res.status(400).send({
-                                    message: getErrorMessage(err)
-                                    });
-                                } 
-                            });
-                        }
-                    });
-
+                        });
+                
                    fs.unlink('./public/'+ delImgPath, function(error) {
                         if (error) {
                             throw error;
