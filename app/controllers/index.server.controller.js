@@ -348,12 +348,14 @@ exports.getAlbum = function(req,res){
 };
 
 exports.deleteAlbum = function(req,res){
-    Album.remove({ _id: req.body.id }, function (err) {
-        if (err) return handleError(err);
-        console.log('removed');
-        // removed!
-    });
-    res.jsonp();
+    Album.findById(req.body.id)
+        .exec(function(err,album){
+            album.remove(function(err){
+                if (err) return handleError(err);
+                console.log('removed');
+            });
+        });
+        res.jsonp();
 };
 // /相簿
 

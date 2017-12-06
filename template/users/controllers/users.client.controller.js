@@ -252,7 +252,7 @@ angular.module('users').controller('UsersController',
 				console.log($scope.albumpage.albums[nth]);
 				$http.post('api/deleteAlbum',deleteAlbum).then(function (res){
 					console.log(res.data);
-					alert("delete"+$scope.albumpage.albums.name);
+					alert("delete"+$scope.albumpage.albums[[nth]].name);
 					$scope.albumpage.albums.splice(nth,1);
 				},function (error){
 					$scope.error = errorResponse.data.message;
