@@ -20,7 +20,13 @@ app.set('port', port);
  */
 
 var server = http.createServer(app);
-app.io.listen(server);
+
+/**
+ * Socket.io
+ */
+var socketApi = require('../app/modules/socketApi');
+var io = socketApi.io;
+io.attach(server);
 
 /**
  * Listen on provided port, on all network interfaces.

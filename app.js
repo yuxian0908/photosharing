@@ -13,20 +13,12 @@ var config = require('./config/config'),
     flash = require('connect-flash'),
     compress = require('compression'),
     Passport = require('passport'),
-    multer = require('multer'),
-    socket_io  = require("socket.io");
+    multer = require('multer');
 
 var mongoose = require('./config/mongoose'),
     passport = require('./config/passport');
 
 var app = express();
-// Socket.io
-app.io = socket_io();
-
-// socket.io events
-app.io.on( "connection", function( socket ){
-  console.log( "A user connected" );
-});
 
 app.use(function(req, res, next) { //allow cross origin requests
   res.setHeader("Access-Control-Allow-Methods", "POST, PUT, OPTIONS, DELETE, GET");
