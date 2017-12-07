@@ -16,14 +16,15 @@
     "express": "~4.15.5",
     "express-session": "^1.15.6",
     "fs": "0.0.2",
-    "multer": "1.1.0",
     "jade": "~1.11.0",
     "method-override": "^2.3.10",
     "mongoose": "^4.13.4",
     "morgan": "~1.9.0",
+    "multer": "1.1.0",
     "passport": "^0.4.0",
     "passport-local": "^1.0.0",
-    "serve-favicon": "~2.4.5"
+    "serve-favicon": "~2.4.5",
+    "socket.io": "^2.0.4"
   },
   "devDependencies": {
     "grunt": "^1.0.1",

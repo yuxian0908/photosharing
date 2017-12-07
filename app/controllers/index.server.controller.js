@@ -39,6 +39,10 @@ exports.renderindex = function(req,res){
     res.render('index', { 	user: JSON.stringify(req.user)||"null" });
 };
 
+exports.renderchat = function(req,res){
+    res.render('chat', { 	user: JSON.stringify(req.user)||"null" });
+};
+
 // 用戶註冊登入機制
 exports.signup = function(req, res, next) {
     // If user is not connected, create and login a new user, otherwise redirect the user back to the main application page

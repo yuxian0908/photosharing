@@ -13,12 +13,20 @@ var config = require('./config/config'),
     flash = require('connect-flash'),
     compress = require('compression'),
     Passport = require('passport'),
-    multer = require('multer');
+    multer = require('multer'),
+    socket_io  = require("socket.io");
 
 var mongoose = require('./config/mongoose'),
     passport = require('./config/passport');
 
 var app = express();
+// Socket.io
+app.io = socket_io();
+
+// socket.io events
+app.io.on( "connection", function( socket ){
+  console.log( "A user connected" );
+});
 
 app.use(function(req, res, next) { //allow cross origin requests
   res.setHeader("Access-Control-Allow-Methods", "POST, PUT, OPTIONS, DELETE, GET");
@@ -75,10 +83,19 @@ app.use(Passport.session());
 var router = express.Router();
 var index = require('./app/routes/index.server.route');
 var admin = require('./app/routes/admin.server.route');
+var chat = require('./app/routes/chat.server.route');
 app.use('/_admin', admin);
 app.use('/api/_admin', admin);
+app.use('/chat', chat);
+app.use('/api/chat', chat);
 app.use('/', index);
 app.use('/api/', index);
+
+
+app.all('/chat/*', function(req, res, next) {
+  // Just send the index.html for other files to support HTML5Mode
+  res.render('chat.jade', { root: './app/views',title:'chat',user:JSON.stringify(req.user)});
+});
 
 app.all('/_admin/*', function(req, res, next) {
   // Just send the index.html for other files to support HTML5Mode
