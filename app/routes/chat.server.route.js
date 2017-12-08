@@ -11,4 +11,7 @@ router.route('/')
 router.route('/:id')
       .get(index.requiresLogin,index.renderchat);
 
+router.route('/getChatPatner')
+      .post(index.requiresLogin,index.getChatPatner);
+
 module.exports = router;

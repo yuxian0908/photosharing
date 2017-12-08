@@ -170,6 +170,19 @@ exports.getOtheruser = function(req,res){
     });
 };
 
+exports.getChatPatner = function(req,res){
+    User.find({'_id':req.body.id}).select('created').exec(function(err,user){
+        if (err) {
+            // If an error occurs send the error message
+            return res.status(400).send({
+                message: getErrorMessage(err)
+            });
+        } else {
+            res.jsonp(user);
+        }
+    });
+};
+
 exports.searchuser = function(req,res){
     var query = req.body.searchname;
     User.find({'username':{ $regex: '.*' + query + '.*' }})

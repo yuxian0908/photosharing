@@ -260,6 +260,45 @@ angular.module('users').controller('UsersController',
 			}
 		};
 
+		$scope.chat = {
+			otherUrlDirect : function(){
+				var usingUser = $scope.authentication.user;
+				var pageUser;
+				// get chat partner
+				var chatPartner = {
+					id : $scope.otheruser
+				};
+				$http.post('/api/chat/getChatPatner', chatPartner)
+					.then(function (res){
+						pageUser = res.data[0];
+						// decide chatroom name
+						if(usingUser.created > pageUser.created){
+							$scope.chat.roomId = usingUser._id + "-" + pageUser._id;
+						}else{
+							$scope.chat.roomId = pageUser._id + "-" + usingUser._id;
+						}
+						// enter chatroom
+						$http.get('/api/chat/' + $scope.chat.roomId).then(function (res){
+							$location.path('/chat/' + $scope.chat.roomId);
+							window.location.reload('/chat/' + $scope.chat.roomId);
+						},function (error){
+							$scope.error = errorResponse.data.message;
+						});
+					},function (error){
+						$scope.error = errorResponse.data.message;
+					});
+
+			},
+			urlDirect : function(){
+				$http.get('/api/chat/').then(function (res){
+					$location.path('/chat/');
+					window.location.reload('/chat/');
+				},function (error){
+					$scope.error = errorResponse.data.message;
+				});
+			}
+		};
+
 		// init all init functions
 		$scope.initFunctions = {
 			userpage : function(){

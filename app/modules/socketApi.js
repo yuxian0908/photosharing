@@ -22,9 +22,9 @@ io.on('connection', function(socket){
 
 
     // 發送訊息 接收前端emit
-    socket.on('chat message', function(msg){
+    socket.on('chat message', function(msg , user){
         // 發送訊息 emit到前端
-        io.to(roomID).emit('chat message', msg);
+        io.to(roomID).emit('chat message', msg , user);
     });
 
     // 加入房間 接收前端emit
