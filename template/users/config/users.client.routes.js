@@ -25,10 +25,10 @@ angular.module('users').config(['$routeProvider','$locationProvider',
 		}).
 		when('/album',{
 			templateUrl: 'users/views/album.client.view.html'
-		}).
-		otherwise({
-			redirectTo: '/'
 		});
+		// otherwise({
+		// 	redirectTo: '/'
+		// });
 
 		$locationProvider.html5Mode(true);
 	}

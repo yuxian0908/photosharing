@@ -8,4 +8,7 @@ var passport = require('passport');
 router.route('/')
       .get(index.requiresLogin,index.renderchat);
 
+router.route('/:id')
+      .get(index.requiresLogin,index.renderchat);
+
 module.exports = router;
