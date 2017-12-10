@@ -16,7 +16,7 @@ grunt.initConfig({
     },
     jshint: {
         app: ['Gruntfile.js', 'app/**/*.js', 'config/*.js', 'config/**/*.js'],
-        template: ['template/**/**/*.js','template/**/*.js'],
+        template: ['template/**/**/**/*.js','template/**/**/*.js','template/**/*.js'],
         options: {
             //这里是覆盖JSHint默认配置的选项
             globals: {
@@ -29,14 +29,21 @@ grunt.initConfig({
     },
     clean: {
         all: ['public/script.js','public/script.min.js',
-                'public/angular.js','public/**/**/*.html'],
-        js: ['public/script.js','public/angular.js'],        
+                'public/angular.js','public/**/**/*.html',
+                'public/chat/views/js/chat.min.js','public/chat/views/js/chat.js'],
+        js: ['public/script.js','public/angular.js','public/chat/views/js/chat.js'],        
     },
     copy: {
         main: {
             expand: true,
             cwd: 'template',
             src: '**/**/*.html',
+            dest: 'public/',
+        },
+        jQuery: {
+            expand: true,
+            cwd: 'template',
+            src: '**/views/js/*.js',
             dest: 'public/',
         },
     },
@@ -60,6 +67,7 @@ grunt.initConfig({
             files: {
                 'public/script.min.js': ['public/script.js'],
                 'public/angular.min.js': ['public/angular.js'],
+                'public/chat/views/js/chat.min.js': ['public/chat/views/js/chat.js'],
             }
         }
     },
