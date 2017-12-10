@@ -16,6 +16,7 @@ var config = require('./config/config'),
     multer = require('multer');
 
 var mongoose = require('./config/mongoose'),
+    redis = require('./config/redis'),
     passport = require('./config/passport');
 
 var app = express();
@@ -27,14 +28,15 @@ app.use(function(req, res, next) { //allow cross origin requests
   next();
 });
 
-// Create a new Mongoose connection instance
+// Create a new database connection instance
 var db = mongoose();
+var client = redis();
 
 // view engine setup
 app.set('views', path.join(__dirname, './app/views'));
 app.set('view engine', 'jade');
 
-// uncomment after placing your favicon in /public
+// uncomment after placing favicon in /public
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 
 // Use the 'NDOE_ENV' variable to activate the 'morgan' logger or 'compress' middleware
