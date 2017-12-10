@@ -2,6 +2,6 @@
 <section ng-controller="chatController" id="chatList" ng-init="initFunctions.chatList()">
     <h1>chat list</h1>
     <div ng-repeat="room in chatList.list">
-        <a ng-click="$scope.chatList.redirect(room.room)" href="">{{room.room}}</a>
+        <a ng-click="chatList.redirect(room.room)" href="">{{room.room}}</a>
     </div>
 </section>
