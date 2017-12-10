@@ -289,14 +289,14 @@ angular.module('users').controller('UsersController',
 					});
 
 			},
-			urlDirect : function(){
-				$http.get('/api/chat/').then(function (res){
-					$location.path('/chat/');
-					window.location.reload('/chat/');
-				},function (error){
-					$scope.error = errorResponse.data.message;
-				});
-			}
+			// urlDirect : function(){
+			// 	$http.get('/api/chat/').then(function (res){
+			// 		$location.path('/chat/');
+			// 		window.location.reload('/chat/');
+			// 	},function (error){
+			// 		$scope.error = errorResponse.data.message;
+			// 	});
+			// }
 		};
 
 		// init all init functions
