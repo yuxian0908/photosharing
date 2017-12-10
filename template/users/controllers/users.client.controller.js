@@ -278,9 +278,9 @@ angular.module('users').controller('UsersController',
 							$scope.chat.roomId = pageUser._id + "-" + usingUser._id;
 						}
 						// enter chatroom
-						$http.get('/api/chat/' + $scope.chat.roomId).then(function (res){
-							$location.path('/chat/' + $scope.chat.roomId);
-							window.location.reload('/chat/' + $scope.chat.roomId);
+						$http.get('/api/chat/room/' + $scope.chat.roomId).then(function (res){
+							$location.path('/chat/room/' + $scope.chat.roomId);
+							window.location.reload('/chat/room/' + $scope.chat.roomId);
 						},function (error){
 							$scope.error = errorResponse.data.message;
 						});

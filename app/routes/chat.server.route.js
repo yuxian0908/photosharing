@@ -8,7 +8,7 @@ var passport = require('passport');
 router.route('/')
       .get(index.requiresLogin,index.renderchat);
 
-router.route('/:id')
+router.route('/room/:id')
       .get(index.requiresLogin,index.renderchat);
 
 router.route('/getChatPatner')

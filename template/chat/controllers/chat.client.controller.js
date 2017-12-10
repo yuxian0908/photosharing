@@ -18,9 +18,9 @@ angular.module('chat').controller('chatController',
 				});
 			},
 			redirect : function(roomId){
-				$http.get('/api/chat/' + roomId).then(function (res){
-					$location.path('/chat/' + roomId);
-					window.location.reload('/chat/' + roomId);
+				$http.get('/api/chat/room/' + roomId).then(function (res){
+					$location.path('/chat/room/' + roomId);
+					window.location.reload('/chat/room/' + roomId);
 				},function (error){
 					$scope.error = errorResponse.data.message;
 				});
