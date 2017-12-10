@@ -6,5 +6,16 @@ angular.module('chat').controller('chatController',
 		// Expose the authentication service
 		$scope.authentication = Authentication;
 
+		$scope.chatList = {
+			getList : function(){
+				
+			}
+		};
+
+		$scope.initFunctions = {
+			chatList : function(){
+				$scope.chatList.getList();
+			}
+		};
 	}
 ]);

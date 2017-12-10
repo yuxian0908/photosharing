@@ -29,5 +29,7 @@ router.route('/get_messages')
 router.route('/get_chatters')
       .post(chat.get_chatters);
 
+router.route('/chatList')
+      .post(chat.chatList);
 
 module.exports = router;

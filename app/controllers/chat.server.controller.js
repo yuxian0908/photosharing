@@ -35,23 +35,36 @@ var chatters = [];
 var chat_messages = [];
 
 exports.join = function (req, res) {
+    var isAdded = false;
+    var count = 0;
     var username = req.body.username;
-    var chatroom = req.body.room; 
-    if (chatters.indexOf(username) === -1) {
-        chatters.push({
-            room: chatroom,
-            chatters: username
-        });
-        client.set('chat_users', JSON.stringify(chatters));
-        res.send({
-            'chatters': chatters,
-            'status': 'OK'
-        });
-    } else {
-        res.send({
-            'chatters': chatters,
-            'status': 'OK'
-        });
+    var room = req.body.room;
+    var tempuser = {
+        "username" : username,
+        "room" : room
+    };
+
+    for(var i=0; i<chatters.length; i++){
+        count++;
+        if(chatters[i].username === username && chatters[i].room === room){
+            isAdded = true;
+            console.log('same user');
+        }
+        if(count===chatters.length){
+            if (!isAdded) {
+                chatters.push(tempuser);
+                client.set('chat_users', JSON.stringify(chatters));
+                res.send({
+                    'chatters': chatters,
+                    'status': 'OK'
+                });
+            } else {
+                res.send({
+                    'status': 'FAILED'
+                });
+            }
+            count = 0;
+        }
     }
 };
 
@@ -100,26 +113,18 @@ exports.get_messages = function (req, res) {
 // API - Get Chatters
 exports.get_chatters = function (req, res){
     var chatusers = [];
-    var isAdded = false;
+    // var isAdded = false;
     client.get('chat_users', function (err, users) {
         if (users) {
-            chatters = JSON.parse(users);
-            console.log(chatters);
-            for(var i=0; i<chatters.length; i++){
-                if(chatters[i].room===req.body.room){
-                    for(var j=0; j<chatusers.length; j++){
-                        if(chatusers[j].chatters===chatters[i].chatters){
-                            isAdded = true;
-                        }
-                    }
-                    if(!isAdded){
-                        chatusers.push(chatters[i]);
-                        isAdded = false;
-                    }
-                }
-            }
+            chatusers = JSON.parse(users);
+            console.log(chatusers);
+            res.jsonp(chatusers);
         }    
-        console.log(chatusers);
-        res.jsonp(chatusers);
+
     });
+};
+
+// get chatList
+exports.chatList = function (req, res){
+
 };
