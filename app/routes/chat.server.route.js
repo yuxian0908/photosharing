@@ -24,10 +24,10 @@ router.route('/send_message')
       .post(chat.send_message);
    
 router.route('/get_messages')
-      .get(chat.get_messages);
+      .post(chat.get_messages);
 
 router.route('/get_chatters')
-      .get(chat.get_chatters);
+      .post(chat.get_chatters);
 
 
 module.exports = router;
