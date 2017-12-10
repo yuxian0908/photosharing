@@ -8,7 +8,22 @@ angular.module('chat').controller('chatController',
 
 		$scope.chatList = {
 			getList : function(){
-				
+				var data = {
+					username : $scope.authentication.user.username
+				};
+				$http.post('api/chat/chatList',data).then(function (res){
+					$scope.chatList.list = res.data;
+				},function (error){
+					$scope.error = errorResponse.data.message;
+				});
+			},
+			redirect : function(roomId){
+				$http.get('/api/chat/' + roomId).then(function (res){
+					$location.path('/chat/' + roomId);
+					window.location.reload('/chat/' + roomId);
+				},function (error){
+					$scope.error = errorResponse.data.message;
+				});
 			}
 		};
 

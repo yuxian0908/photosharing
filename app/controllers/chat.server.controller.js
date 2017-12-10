@@ -119,12 +119,31 @@ exports.get_chatters = function (req, res){
             chatusers = JSON.parse(users);
             console.log(chatusers);
             res.jsonp(chatusers);
-        }    
-
+        }   
     });
 };
 
 // get chatList
 exports.chatList = function (req, res){
-
+    var count = 0;
+    var chatusers = [];
+    var chatList = [];
+    // var isAdded = false;
+    console.log(req.body);
+    client.get('chat_users', function (err, users) {
+        if (users) {
+            chatusers = JSON.parse(users);
+            
+            for(var i=0;i<chatusers.length;i++){
+                count++;
+                if(chatusers[i].username===req.body.username){
+                    chatList.push(chatusers[i]);
+                }
+                if(count===chatusers.length){
+                    console.log(chatList);
+                    res.jsonp(chatList);
+                }
+            }
+        }   
+    });
 };
