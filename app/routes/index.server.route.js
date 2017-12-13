@@ -3,11 +3,22 @@ var router = express.Router();
 var index = require('../controllers/index.server.controller');
 var cart = require('../controllers/cart.server.controller');
 var passport = require('passport');
+var cloudStorage = require('../controllers/cloudStorage.server.controller');
 
 /* GET home page. */
 router.route('/')
       .get(index.renderindex);
 
+// cloudStorage init
+router.route('/cloud')
+      .get(cloudStorage.boxinit);
+
+router.route('/cloud/redirect')
+      .get(cloudStorage.getToken);
+// /cloudStorage init
+
+router.route('/test')
+      .get(cloudStorage.test);
 
 router.route('/getuser')
       .post(index.getuser); 

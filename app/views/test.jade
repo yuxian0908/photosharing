@@ -1,0 +1,135 @@
+doctype html
+html(lang='en-US')
+  head
+    title Customer Log In
+    meta(http-equiv='X-UA-Compatible', content='IE=edge')
+    meta(name='viewport', content='initial-scale = 1.0,maximum-scale = 1.0')
+    link(rel='stylesheet', href='https://cdn01.boxcdn.net/_assets/css/section_templ_webviews_login_oauth_login-sR0zL9.css')
+    link(rel='stylesheet', href='https://cdn01.boxcdn.net/_assets/css/section_templ_webviews_login_login-P5F6GM.css')
+    link(rel='stylesheet', href='https://cdn01.boxcdn.net/_assets/css/webviews/webviews_image_ios-_ORMpz.css')
+    script(type='text/javascript').
+      var request_token = '34f3b38c017c3ff2238c33c89762cedbc4a10d638732002ebc767757b0532e43'; var site_root = '/';
+  //if IE 7
+    body.ie.ie7.lte_ie9.lte_ie8.body.device_(data-device='')
+  //if IE 8
+    body.ie.ie8.lte_ie9.lte_ie8.body.device_(data-device='')
+  //if IE 9
+    body.ie.ie9.lte_ie9.body.device_(data-device='')
+  //if gt IE 9
+    body.ie.body.device_(data-device='')
+  // [if !IE] <!
+  body.body.device_(data-device='')
+    // <![endif]
+    .header_wrapper
+      img.box_logo(alt='Box Logo', src='https://cdn01.boxcdn.net/_assets/img/new_box_logo-t7VwmA.png')
+    .service_logo_container
+      .float_content_centered_outer_container
+        .float_content_centered_inner_container
+          .service_logo_inner_container
+            img.service_logo(src='https://cdn01.boxcdn.net/_assets/img/apps/app-icon-100x100-SwaG2o.png', alt='Logo for yuxian')
+    .content_wrapper.oauth.login_wrapper
+      .inner_content_wrapper.center.center_contents
+        h2.strong.content_title.mbl.mtn.clearfix Log in to grant access to Box
+        .fw.webview.webview_login.app_form.small_app_form.oauth
+          .header.center_contents
+            .section.branding_section.center
+              .container.logo_container
+                .signup_login_box_logo.center
+          .content
+            .section.form_section.center
+              .container.form_container.login_form_container.center
+                form.form.login_form(action='https://account.box.com/api/oauth2/authorize', method='post', name='login_form')
+                  ul.container.error_container.basic_list.basic_list_sm.hidden
+                    li.data.plm.warning.ram.pas.man
+                      .media.pvs
+                        .img.icon
+                          .sprite_signup_login_icon_error
+                        .bd
+                  .field_set.login_fields.fw.center
+                    .login_user_inputs
+                      label.field_label.user_login_field(for='login') Email Address
+                      .user_login_field.text_input_with_sprite.text_input_with_sprite_16x16.mbm
+                        input#login.text_input.login_email.ram.field_element(name='login', type='email', title='Email Address', placeholder='Email Address', value='')
+                        label.icon(for='login', title='Email Address')
+                      label.field_label.user_password_field(for='password') Password
+                      .user_password_field.text_input_with_sprite.text_input_with_sprite_16x16.mbm
+                        input#password.text_input.login_password.ram.field_element(name='password', title='Password', placeholder='Password', type='password', autocapitalize='off', autocomplete='off', autocorrect='off')
+                        label.icon(for='password', title='Password')
+                    .login_submit_div
+                      input.btn.btn-primary.mhn.login_submit.fw.pvm.ram(title='Authorize', value='Authorize', type='submit', name='login_submit')
+                    input(type='hidden', name='dologin', value='1')
+                    input(type='hidden', name='client_id', value='mze26rnupvitiyo9g9j2xamrx78e8gwo')
+                    input(type='hidden', name='response_type', value='code')
+                    input(type='hidden', name='redirect_uri', value='http://localhost:3000/')
+                    input(type='hidden', name='scope', value='root_readwrite manage_groups manage_enterprise_properties manage_app_users manage_managed_users')
+                    input(type='hidden', name='folder_id', value='')
+                    input(type='hidden', name='file_id', value='')
+                    input(type='hidden', name='state', value='abcde')
+                    input(type='hidden', name='reg_step', value='')
+                    input(type='hidden', name='submit1', value='1')
+                    input(type='hidden', name='folder', value='')
+                    input(type='hidden', name='login_or_register_mode', value='login')
+                    input(type='hidden', name='new_login_or_register_mode', value='')
+                    input(type='hidden', name='__login', value='1')
+                    input(type='hidden', name='redirect_url', value='/api/oauth2/authorize')
+                    input(type='hidden', name='request_token', value='34f3b38c017c3ff2238c33c89762cedbc4a10d638732002ebc767757b0532e43')
+                    input#_pw_sql(type='hidden', name='_pw_sql', value='')
+                  .sso_switch.option_sso.mts.pvs.phm.hidden
+                    a.sso_on(href='#', role='button', tabindex='0') Use Single Sign On (SSO)
+                    a.sso_off(href='#', tabindex='0') Use Box account credentials
+              .container.options_container.center
+                ul.basic_list.basic_list_med.option_list.data
+                  li.option_sso
+                    .media.option
+                      a.option_text(href='#')
+                        span.img.login-icon.mrs.ram.use-company-credentials-icon
+                        span.bd
+                          span.sso_on Use Single Sign On (SSO)
+                          span.sso_off Use Box account credentials
+                  li.option_password_reset
+                    .media.option
+                      a.option_text(href='https://account.box.com/webviews/password_reset/oauth')
+                        span.img.login-icon.mrs.ram.help-icon
+                        span.bd Can't access your account?
+                  li.option_signup
+                    .media.option
+                      a.option_text(href='https://account.box.com/webviews/signup/oauth')
+                        span.img.login-icon.mrs.ram.sign-up-icon
+                        span.bd Sign up for a Box account
+        .additional_options
+          .mvs
+            a(href='https://account.box.com/webviews/oauth/reset_password') Forgot password
+        .signup-terms-container.center.mvm
+          | By granting yuxian access to Box, you are agreeing to Box's  
+          a(href='/legal_text/tos', target='_blank') Terms of Service
+          |  and  
+          a(href='/legal_text/privacy_policy', target='_blank') Privacy Policy
+          | .
+    .footer
+      | ©2017 Box
+    script(type='text/javascript', src='https://cdn01.boxcdn.net/_assets/js/vendor/intl/dist/Intl.min--nNpyW.js')
+    script(type='text/javascript', src='https://cdn01.boxcdn.net/_assets/js/vendor/intl/locale-data/jsonp/en-US-M2Lw4q.js')
+    script(type='text/javascript', src='https://cdn01.boxcdn.net/_assets/js/section_templ_webviews_login_login-Cy2vvE.js')
+    script.
+      (function() {
+      window.Box = window.Box || {};
+      window.initialConfig = null || {};
+      window.initialConfig.debug = 0;
+      window.initialConfig.browser_is_old = 1;
+      window.initialConfig.initialJSHashes = ["Z7FrE","QxAcn","wsz8k","ch77x","TXwG1","1og2L","814jR","h7xMq","moLuV","LCoqx","CJhaJ","of7Sp","D5Aw2","E2AL4","5P8t2","upa2L","m1Nnh","5c4B5","oZc6P","EMjkd","cEKo8"];
+      window.initialConfig.initialCSSHashes = ["iMVyy","F5PHY","LVtBB","f4Wc3","QXN1V","zdENB","SYHgU","CpRtm","JWAZW","iMVyy","F5PHY","QXN1V","zdENB","SYHgU","CpRtm","JWAZW","XCrUL","pyJKg","RW6dC","LVtBB","TsZ4M","MXgFM","krw4m","WvC5c","W8HTR","wvuQo"];
+      window.initialConfig.cookieDomain = '.account.box.com';
+      window.initialConfig.cookieRootDomain = '.box.com';
+      window.initialConfig.vitalOpenboxActions = null;
+      window.initialConfig.useConnectionDiagnosticsMirror = false;
+      window.initialConfig.adobeEnv = null;
+      window.initialConfig.emitTranslationTags = 0;
+      window.initialConfig.datacenterTag = 've';
+      window.initialConfig.isBoxEditAllowed = 0;
+      window.initialConfig.isBoxEditFallbackEnabled = 0;
+      window.initialConfig.useUnSecureUrlForComServer = 0;
+      window.initialConfig.isOfficeOnlineAllowed = 0;
+      window.initialConfig.showResinTagTracker = 0;
+      window.initialConfig.locale = '';
+      window.Box.config = window.initialConfig; // Shim for Amsterdam code
+      })();

@@ -4,12 +4,13 @@ var	config = require('./config'),
 
 module.exports = function() {
     var sdk = new BoxSDK({
-        clientID: 'mze26rnupvitiyo9g9j2xamrx78e8gwo',
-        clientSecret: 'NofcjyrNTIDMGL4WUaGO5nRGeen38m3H'
+        clientID: config.cloudStorage.clientID,
+        clientSecret: config.cloudStorage.clientSecret
     });
       
     // Create a basic API client
-    var client = sdk.getBasicClient('L8WxCFs7a0Q9Bc5tlmLAEgYuaAZOvCEZ');
+    var client = sdk.getAnonymousClient();
+    // var client = sdk.getBasicClient('2pSUhQJLHaHN5ElcdNmZjNehGlcaTk9v');
     
     // // Get some of that sweet, sweet data!
     // client.users.get(client.CURRENT_USER_ID, null, function(err, currentUser) {

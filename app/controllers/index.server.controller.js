@@ -1,11 +1,15 @@
 // Load the module dependencies
 var mongoose = require('mongoose'),
-User = require('mongoose').model('User'),
-Photo = require('mongoose').model('Photo'),
-passport = require('passport'),
-fs = require('fs'),
-multer = require('multer'),
-Album = require('mongoose').model('Album');
+    User = require('mongoose').model('User'),
+    Photo = require('mongoose').model('Photo'),
+    passport = require('passport'),
+    fs = require('fs'),
+    multer = require('multer'),
+    Album = require('mongoose').model('Album'),
+    box = require('../../config/box')(),
+    request = require('request'),
+    config = require('../../config/config'),
+    async =  require('async');
 
 // 錯誤處理器
 var getErrorMessage = function(err) {
@@ -356,5 +360,3 @@ exports.deleteAlbum = function(req,res){
         res.jsonp();
 };
 // /相簿
-
-
