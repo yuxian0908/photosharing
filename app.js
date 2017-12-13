@@ -17,9 +17,15 @@ var config = require('./config/config'),
 
 var mongoose = require('./config/mongoose'),
     redis = require('./config/redis'),
-    passport = require('./config/passport');
+    passport = require('./config/passport'),
+    box = require('./config/box')();
 
 var app = express();
+
+box.users.get(box.CURRENT_USER_ID)
+    .then(user => console.log('Hello', user.name, '!'))
+    .catch(err => console.log('Got an error!', err));
+
 
 app.use(function(req, res, next) { //allow cross origin requests
   res.setHeader("Access-Control-Allow-Methods", "POST, PUT, OPTIONS, DELETE, GET");
