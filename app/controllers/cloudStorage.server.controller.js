@@ -98,6 +98,15 @@ exports.test = function(req, res){
         console.log('Hello, ');
     });
 
+    var stream = fs.createReadStream('C:/Users/User/Desktop/folder/coding/practice/yuxian/node6-test/public/uploads/5a2a7303d0b2ab01f4e2fc4d/5a2a7303d0b2ab01f4e2fc4d-1513135097971.jpg');
+    client.files.uploadFile('43163322430', 'test2345.jpg', stream, function(err,res){
+        if(err){
+            console.log('err');
+        }else{
+            console.log(res.entries[0].id);
+        }
+    });
+
     // box.files.getDownloadURL('255361058796', null, function(error, downloadURL) {
     // if (error) {
     //     //handle error
