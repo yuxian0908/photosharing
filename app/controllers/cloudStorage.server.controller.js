@@ -1,7 +1,7 @@
 // Load the module dependencies
 var mongoose = require('mongoose'),
     fs = require('fs'),
-    box = require('../../config/box')(),
+    box = require('../../config/box'),
     request = require('request'),
     config = require('../../config/config'),
     async =  require('async');
@@ -74,29 +74,29 @@ exports.getToken = function(req, res){
             function(err,httpResponse,body){
                 console.log(body);
                 var token = JSON.parse(body);
-                var query = "refresh_token="+token.refresh_token;
-                callback(null,"done");
+                Token = {
+                    refresh_token:token.refresh_token,
+                    access_token:token.access_token
+                };
+                callback(null);
+                
             });
+        },function(){
+            
+            res.redirect('/test');
         }
     ]); 
 };
 
 exports.test = function(req, res){
     console.log('asdf');
-    // var getfolderList = {
-    //     Authorization: "Bearer"+req.query.refresh_token
-    // };
-    // request.post('https://www.box.com/api/2.0/folders/0',{form:getfolderList},
-    // function(err,httpResponse,body){
-    //     console.log(body);
-    //     // .pipe(fs.createWriteStream('app/views/test.html'));
-    // });
+    console.log(Token);
+    var client = box(Token.access_token);
 
-        //     // Get some of that sweet, sweet data!
-    // box.users.get(box.CURRENT_USER_ID, null, function(err, currentUser) {
-    //     if(err) throw err;
-    //     console.log('Hello, ');
-    // });
+    client.users.get(client.CURRENT_USER_ID, null, function(err, currentUser) {
+        if(err) throw err;
+        console.log('Hello, ');
+    });
 
     // box.files.getDownloadURL('255361058796', null, function(error, downloadURL) {
     // if (error) {
