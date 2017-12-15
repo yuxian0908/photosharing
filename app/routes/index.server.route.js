@@ -29,13 +29,11 @@ router.route('/searchuser')
 router.route('/getOtheruser')
       .post(index.getOtheruser); 
 
-router.route('/photos/:id')
-      .post(index.deletephoto); 
 
+// 登入系統
 router.route('/signup')
       .post(index.signup);
 
-// Set up the 'signin' routes 
 router.route('/signin')
       .post(passport.authenticate('local', {
             successRedirect: '/',
@@ -45,15 +43,21 @@ router.route('/signin')
       .get(function(){
             console.log('signin error');
       });
+
+router.post('/signout', index.signout);
+
+
+
 /** API path that will upload the photos */
+router.route('/photos/:id')
+      .post(cloudStorage.deletephoto); 
+
 router.route('/upload')
-      .post(index.uploadphotos);
+      .post(cloudStorage.uploadphotos);
 
 router.route('/showphotos')
-      .post(index.showphotos);
+      .post(cloudStorage.showphotos);
 
-// Set up the 'signout' route
-router.post('/signout', index.signout);
 
 // 購物車功能
 router.route('/addToCart')

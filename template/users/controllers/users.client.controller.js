@@ -126,6 +126,7 @@ angular.module('users').controller('UsersController',
 				}
 			},
 			upload : function (file) {
+				console.log(file);
 				Upload.upload({
 					url: '/api/upload', //webAPI exposed to upload the file
 					data:{file:file,username: $scope.authentication.user}, //pass file as data, should be user ng-model

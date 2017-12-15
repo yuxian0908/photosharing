@@ -204,134 +204,6 @@ exports.searchuser = function(req,res){
 };
 // /查詢其他用戶
 
-
-// 用戶主頁照片
-exports.uploadphotos = function(req,res){
-
-    var storage = multer.diskStorage({ //multers disk storage settings
-        destination: function (req, file, cb) {
-            var dir = './public/uploads/'+ req.user._id ;
-            fs.mkdir(dir, function(err){
-                cb(null, dir);
-            });
-        },
-        filename: function (req, file, cb) {
-            var datetimestamp = Date.now();
-            cb(null, req.user._id + '-' + datetimestamp + '.' + file.originalname.split('.')[file.originalname.split('.').length -1]);
-        }
-    });
-    
-    var upload = multer({ //multer settings
-                        storage: storage
-                    }).single('file');
-
-    upload(req,res,function(err){
-        if(err){
-                res.json({error_code:1,err_desc:err});
-                return;
-        }
-        var filePath = req.file.path.replace(/\\/g, "/");
-        filePath = filePath.substring(filePath.indexOf("/") + 1);
-        var img = {
-            originalname: req.file.originalname,
-            path:filePath
-        };
-
-        // Create a new photo object
-        var photo = new Photo(img);
-        
-        // Set the photo's 'creator' property
-        photo.creator = req.user;
-    
-        // Try saving the photo
-        photo.save(function(err) {
-            if (err) {
-                // If an error occurs send the error message
-                return res.status(400).send({
-                    message: getErrorMessage(err)
-                });
-            } 
-        });
-
-        User.findById(req.user._id,function(err,user){
-            if (err) {
-                // If an error occurs send the error message
-                return res.status(400).send({
-                    message: getErrorMessage(err)
-                });
-            } else {
-                Photo.find({"creator":req.user._id}).exec(function(err,imgs){
-                    user.imgs = imgs;
-                    user.save(function (err) {
-                        if (err){
-                        return res.status(400).send({
-                            message: getErrorMessage(err)
-                            });
-                        } 
-                    });
-                });
-            }
-        });
-
-            res.json({error_code:0,err_desc:null});
-    });
-};
-
-exports.showphotos = function(req,res){
-    Photo.find()
-        .sort('-created')
-        .populate('creator')
-        .exec(function(err,img){
-        if (err) {
-            console.log('err happened');
-            // If an error occurs send the error message
-            return res.status(400).send({
-                message: getErrorMessage(err)
-            });
-        } else {
-            var imgs = [];
-            for(var i=0;i<img.length;i++){
-                if(req.body.id===img[i].creator.id){
-                    imgs.push(img[i]);
-                }
-            }
-            
-            res.jsonp(imgs);
-        }
-    });
-};
-
-exports.deletephoto = function(req,res){
-    Photo.findById(req.body.photoid)
-         .exec(function (err, photo) {
-                if (err) {
-                    // If an error occurs send the error message
-                    console.log('err happened');
-                    return res.status(400).send({
-                        message: getErrorMessage(err)
-                    });
-                } else {
-                   var delImgPath = photo.path;
-                   Photo.findById(photo._id)
-                        .exec(function(err,photo){
-                            if(err)console.log('find photo err');
-                            photo.remove(function(err){
-                                if (err) return handleError(err);
-                                console.log('removed');
-                            });
-                        });
-                
-                   fs.unlink('./public/'+ delImgPath, function(error) {
-                        if (error) {
-                            throw error;
-                        }
-                    });
-                   res.jsonp(photo);
-                }
-            });
-};
-// /用戶主頁照片
-
 // 相簿
 exports.getAlbum = function(req,res){
     Album.find({'owner':req.user})
@@ -360,3 +232,131 @@ exports.deleteAlbum = function(req,res){
         res.jsonp();
 };
 // /相簿
+
+
+// // 用戶主頁照片
+// exports.uploadphotos = function(req,res){
+
+//     var storage = multer.diskStorage({ //multers disk storage settings
+//         destination: function (req, file, cb) {
+//             var dir = './public/uploads/'+ req.user._id ;
+//             fs.mkdir(dir, function(err){
+//                 cb(null, dir);
+//             });
+//         },
+//         filename: function (req, file, cb) {
+//             var datetimestamp = Date.now();
+//             cb(null, req.user._id + '-' + datetimestamp + '.' + file.originalname.split('.')[file.originalname.split('.').length -1]);
+//         }
+//     });
+    
+//     var upload = multer({ //multer settings
+//                         storage: storage
+//                     }).single('file');
+
+//     upload(req,res,function(err){
+//         if(err){
+//                 res.json({error_code:1,err_desc:err});
+//                 return;
+//         }
+//         var filePath = req.file.path.replace(/\\/g, "/");
+//         filePath = filePath.substring(filePath.indexOf("/") + 1);
+//         var img = {
+//             originalname: req.file.originalname,
+//             path:filePath
+//         };
+
+//         // Create a new photo object
+//         var photo = new Photo(img);
+        
+//         // Set the photo's 'creator' property
+//         photo.creator = req.user;
+    
+//         // Try saving the photo
+//         photo.save(function(err) {
+//             if (err) {
+//                 // If an error occurs send the error message
+//                 return res.status(400).send({
+//                     message: getErrorMessage(err)
+//                 });
+//             } 
+//         });
+
+//         User.findById(req.user._id,function(err,user){
+//             if (err) {
+//                 // If an error occurs send the error message
+//                 return res.status(400).send({
+//                     message: getErrorMessage(err)
+//                 });
+//             } else {
+//                 Photo.find({"creator":req.user._id}).exec(function(err,imgs){
+//                     user.imgs = imgs;
+//                     user.save(function (err) {
+//                         if (err){
+//                         return res.status(400).send({
+//                             message: getErrorMessage(err)
+//                             });
+//                         } 
+//                     });
+//                 });
+//             }
+//         });
+
+//             res.json({error_code:0,err_desc:null});
+//     });
+// };
+
+// exports.showphotos = function(req,res){
+//     Photo.find()
+//         .sort('-created')
+//         .populate('creator')
+//         .exec(function(err,img){
+//         if (err) {
+//             console.log('err happened');
+//             // If an error occurs send the error message
+//             return res.status(400).send({
+//                 message: getErrorMessage(err)
+//             });
+//         } else {
+//             var imgs = [];
+//             for(var i=0;i<img.length;i++){
+//                 if(req.body.id===img[i].creator.id){
+//                     imgs.push(img[i]);
+//                 }
+//             }
+            
+//             res.jsonp(imgs);
+//         }
+//     });
+// };
+
+// exports.deletephoto = function(req,res){
+//     Photo.findById(req.body.photoid)
+//          .exec(function (err, photo) {
+//                 if (err) {
+//                     // If an error occurs send the error message
+//                     console.log('err happened');
+//                     return res.status(400).send({
+//                         message: getErrorMessage(err)
+//                     });
+//                 } else {
+//                    var delImgPath = photo.path;
+//                    Photo.findById(photo._id)
+//                         .exec(function(err,photo){
+//                             if(err)console.log('find photo err');
+//                             photo.remove(function(err){
+//                                 if (err) return handleError(err);
+//                                 console.log('removed');
+//                             });
+//                         });
+                
+//                    fs.unlink('./public/'+ delImgPath, function(error) {
+//                         if (error) {
+//                             throw error;
+//                         }
+//                     });
+//                    res.jsonp(photo);
+//                 }
+//             });
+// };
+// // /用戶主頁照片
