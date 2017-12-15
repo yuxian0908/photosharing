@@ -134,6 +134,7 @@ exports.test = function(req, res){
 exports.uploadphotos = function(req,res){
 async.waterfall([
     function(callback){
+        var filename = '';
         var storage = multer.diskStorage({ //multers disk storage settings
             destination: function (req, file, cb) {
                 var dir = './public/uploads/'+ req.user._id ;
@@ -143,7 +144,8 @@ async.waterfall([
             },
             filename: function (req, file, cb) {
                 var datetimestamp = Date.now();
-                cb(null, req.user._id + '-' + datetimestamp + '.' + file.originalname.split('.')[file.originalname.split('.').length -1]);
+                filename = req.user._id + '-' + datetimestamp + '.' + file.originalname.split('.')[file.originalname.split('.').length -1];
+                cb(null, filename);
             }
         });
         
@@ -162,11 +164,9 @@ async.waterfall([
                 originalname: req.file.originalname,
                 path:filePath
             };
+            console.log(filename);
     
-            var dirpath = process.cwd().replace(/\\/g, "/");
-            var cloudPath = dirpath+'/public/'+filePath;
-    
-            callback(null,cloudPath);
+            callback(null,filePath,filename);
             // // Create a new photo object
             // var photo = new Photo(img);
             
@@ -201,11 +201,16 @@ async.waterfall([
             //             });
             //         });
             //     }
+
             // });
     
             //     res.json({error_code:0,err_desc:null});
         });
-    },function(cloudPath,callback){
+    },function(filePath,filename,callback){
+
+        var dirpath = process.cwd().replace(/\\/g, "/");
+        var cloudPath = dirpath+'/public/'+filePath;
+
         var client = box(Token.access_token);
         
         client.users.get(client.CURRENT_USER_ID, null, function(err, currentUser) {
@@ -215,11 +220,19 @@ async.waterfall([
     
         var stream = fs.createReadStream(cloudPath);
         console.log(stream);
-        client.files.uploadFile('43260665844', 'test2345.jpg', stream, function(err,res){
+        client.files.uploadFile('43260665844', filename, stream, function(err,res){
             if(err){
                 console.log('err');
             }else{
                 console.log(res.entries[0].id);
+                callback(null,filePath);
+            }
+        });
+    },
+    function(filePath,callback){
+        fs.unlink('./public/'+ filePath, function(error) {
+            if (error) {
+                throw error;
             }
         });
     }
