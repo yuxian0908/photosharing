@@ -8,16 +8,16 @@
 
 // Load the module dependencies
 var mongoose = require('mongoose'),
-User = require('mongoose').model('User'),
-Photo = require('mongoose').model('Photo'),
-passport = require('passport'),
-fs = require('fs'),
-multer = require('multer'),
-Album = require('mongoose').model('Album'),
-box = require('../../config/box'),
-request = require('request'),
-config = require('../../config/config'),
-async =  require('async');
+    User = require('mongoose').model('User'),
+    Photo = require('mongoose').model('Photo'),
+    passport = require('passport'),
+    fs = require('fs'),
+    multer = require('multer'),
+    Album = require('mongoose').model('Album'),
+    box = require('../../config/box'),
+    request = require('request'),
+    config = require('../../config/config'),
+    async =  require('async');
 
 var Token = {};
 var imgAry = [];
@@ -128,7 +128,7 @@ exports.uploadphotos = function(req,res){
         
             var stream = fs.createReadStream(cloudPath);
             console.log(stream);
-            client.files.uploadFile('43260665844', filename, stream, function(err,res){
+            client.files.uploadFile(config.cloudStorage.photofolder, filename, stream, function(err,res){
                 if(err){
                     console.log('err');
                 }else{
@@ -237,7 +237,14 @@ exports.showphotos = function(req,res){
     });
 };
 
+function deleteCloudImg(img){
+    var client = box.init(Token.access_token);
+    client.files.delete(img, function(err,data){
+        console.log('deleted');
+    });
+}
 exports.deletephoto = function(req,res){
+    console.log(req.body.photoid);
     Photo.findById(req.body.photoid)
         .exec(function (err, photo) {
             if (err) {
@@ -247,20 +254,10 @@ exports.deletephoto = function(req,res){
                     message: getErrorMessage(err)
                 });
             } else {
-                var delImgPath = photo.path;
-                Photo.findById(photo._id)
-                    .exec(function(err,photo){
-                        if(err)console.log('find photo err');
-                        photo.remove(function(err){
-                            if (err) return handleError(err);
-                            console.log('removed');
-                        });
-                    });
-            
-                fs.unlink('./public/'+ delImgPath, function(error) {
-                    if (error) {
-                        throw error;
-                    }
+                deleteCloudImg(photo.cloudPhoId);
+                photo.remove(function(err){
+                    if (err) return handleError(err);
+                    console.log('removed');
                 });
                 res.jsonp(photo);
             }

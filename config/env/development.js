@@ -4,6 +4,7 @@ module.exports = {
 	redis: 'redis://redis-14522.c16.us-east-1-3.ec2.cloud.redislabs.com:14522',
 	sessionSecret: 'developmentSessionSecret',
 	cloudStorage: {
+		photofolder:'43341632199',
 		state: 'MyYuxianWebsite',
 		clientID: 'mze26rnupvitiyo9g9j2xamrx78e8gwo',
 		clientSecret: 'NofcjyrNTIDMGL4WUaGO5nRGeen38m3H',

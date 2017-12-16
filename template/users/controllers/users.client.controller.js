@@ -168,6 +168,7 @@ angular.module('users').controller('UsersController',
 
 		$scope.photohandler = {
 			delete: function(photo){
+				console.log(photo);
 				var photoquery = {
 					photoid : photo
 				};
@@ -175,7 +176,7 @@ angular.module('users').controller('UsersController',
 					console.log(res.data);
 					console.log($scope.showphotos.temp);
 					for(var i=0;i<$scope.showphotos.temp.length;i++){
-						if ($scope.showphotos.temp[i]._id===res.data._id) {
+						if ($scope.showphotos.temp[i].info._id===res.data._id) {
 							$scope.showphotos.temp.splice(i,1);
 						}
 						console.log(i);

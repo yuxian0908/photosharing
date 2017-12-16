@@ -43,9 +43,12 @@
 		
 		<!-- show album -->
 		<div ng-repeat="photo in showphotos.temp">
-			<p>{{photo.info.originalname}}</p>
-			<iframe ng-src="{{photo.thumbnail | trusted}}" frameborder="0"></iframe>
-			<a ng-click="cart.addToCart(photo.info._id)" href="{{photo.thumbnail}}"><img style="width:100px;" ng-src="{{photo.thumbnail}}" alt="{{photo.thumbnail}}"></a>
+			<a ng-click="cart.addToCart(photo.info._id)" href="{{photo.thumbnail}}">
+				<p>{{photo.info.originalname}}</p>
+			</a>
+			<iframe ng-src="{{photo.thumbnail | trusted}}" 
+			frameborder="1" scrolling="yes" style="height:300px"></iframe>
+			
 			<a ng-click="photohandler.delete(photo.info._id)" href="">delete</a>
 		</div>
 		<!-- /show album -->
