@@ -20,6 +20,12 @@ config = require('../../config/config'),
 async =  require('async');
 
 var Token = {};
+var imgAry = [];
+var imgDetail = {
+    info:{},
+    thumbnail:''
+};
+
 exports.boxinit = function(req,res){
     async.waterfall([
         function(callback){
@@ -37,7 +43,6 @@ exports.boxinit = function(req,res){
                                 console.log('文件建立成功');
                                 callback(null);
                               });
-                            // .pipe(fs.createWriteStream('app/views/test.html'));
                         });
         },
         function(callback){
@@ -48,198 +53,156 @@ exports.boxinit = function(req,res){
             callback(null,"done");
         },
     ]);
-    // res.render('test');
 };
 
 exports.getToken = function(req, res){
-    async.waterfall([
-        function(callback){
-            console.log(req.query.code);
-            var token = {
-                grant_type: "authorization_code",
-                code: req.query.code,
-                client_id: config.cloudStorage.clientID,
-                client_secret: config.cloudStorage.clientSecret,
-                redirect_uri:config.cloudStorage.redirect_uri2
-            };
-        
-            request.post('https://api.box.com/oauth2/token',{form:token},
-            function(err,httpResponse,body){
-                var token = JSON.parse(body);
-                console.log(body);
-                var query ={
-                    grant_type:"refresh_token&refresh_token",
-                    refresh_token:token.refresh_token,
-                    client_id:config.cloudStorage.clientID,
-                    client_secret:config.cloudStorage.clientSecret
-                };
-                callback(null,query);
-            });
-        },
-        function(arg1,callback){
-            var token = {
-                grant_type: "refresh_token",
-                refresh_token: arg1.refresh_token,
-                client_id: config.cloudStorage.clientID,
-                client_secret: config.cloudStorage.clientSecret
-            };
-            request.post('https://api.box.com/oauth2/token',{form:token},
-            function(err,httpResponse,body){
-                console.log(body);
-                var token = JSON.parse(body);
-                Token = {
-                    refresh_token:token.refresh_token,
-                    access_token:token.access_token
-                };
-                callback(null);
-                
-            });
-        },function(){
-            
-            res.redirect('/');
-        }
-    ]); 
+    box.getToken(req.query.code,function(err,res){
+        Token = res;
+        console.log(Token);
+    });
+    res.redirect('/');
+};
+
+exports.refreshToken = function(req, res, next){
+    box.refreshToken(Token,function(err,res){
+        Token = res;
+        console.log(Token);
+        next();
+    });
 };
 
 exports.test = function(req, res){
-    console.log('asdf');
-    console.log(Token);
-    var client = box(Token.access_token);
-
-    client.users.get(client.CURRENT_USER_ID, null, function(err, currentUser) {
-        if(err) throw err;
-        console.log('Hello, ');
-    });
-
-    var stream = fs.createReadStream('C:/Users/User/Desktop/folder/coding/practice/yuxian/node6-test/public/uploads/5a2a7303d0b2ab01f4e2fc4d/5a2a7303d0b2ab01f4e2fc4d-1513135097971.jpg');
-    console.log(stream);
-    client.files.uploadFile('43260665844', 'test2345.jpg', stream, function(err,res){
-        if(err){
-            console.log('err');
-        }else{
-            console.log(res.entries[0].id);
-        }
-    });
-
-    // box.files.getDownloadURL('255361058796', null, function(error, downloadURL) {
-    // if (error) {
-    //     //handle error
-    // }
-    // console.log(downloadURL);
-    // //process the downloadURL
-    // });
+    console.log(imgAry);
 };
 
 // 用戶主頁照片
 exports.uploadphotos = function(req,res){
-async.waterfall([
-    function(callback){
-        var filename = '';
-        var storage = multer.diskStorage({ //multers disk storage settings
-            destination: function (req, file, cb) {
-                var dir = './public/uploads/'+ req.user._id ;
-                fs.mkdir(dir, function(err){
-                    cb(null, dir);
-                });
-            },
-            filename: function (req, file, cb) {
-                var datetimestamp = Date.now();
-                filename = req.user._id + '-' + datetimestamp + '.' + file.originalname.split('.')[file.originalname.split('.').length -1];
-                cb(null, filename);
-            }
-        });
-        
-        var upload = multer({ //multer settings
-                            storage: storage
-                        }).single('file');
-    
-        upload(req,res,function(err){
-            if(err){
-                    res.json({error_code:1,err_desc:err});
-                    return;
-            }
-            var filePath = req.file.path.replace(/\\/g, "/");
-            filePath = filePath.substring(filePath.indexOf("/") + 1);
-            var img = {
-                originalname: req.file.originalname,
-                path:filePath
-            };
-            console.log(filename);
-    
-            callback(null,filePath,filename);
-            // // Create a new photo object
-            // var photo = new Photo(img);
+    async.waterfall([
+        function(callback){
+            var filename = '';
+            var storage = multer.diskStorage({ //multers disk storage settings
+                destination: function (req, file, cb) {
+                    var dir = './public/uploads/'+ req.user._id ;
+                    fs.mkdir(dir, function(err){
+                        cb(null, dir);
+                    });
+                },
+                filename: function (req, file, cb) {
+                    var datetimestamp = Date.now();
+                    filename = req.user._id + '-' + datetimestamp + '.' + file.originalname.split('.')[file.originalname.split('.').length -1];
+                    cb(null, filename);
+                }
+            });
             
-            // // Set the photo's 'creator' property
-            // photo.creator = req.user;
+            var upload = multer({ //multer settings
+                                storage: storage
+                            }).single('file');
         
-            // // Try saving the photo
-            // photo.save(function(err) {
-            //     if (err) {
-            //         // If an error occurs send the error message
-            //         return res.status(400).send({
-            //             message: getErrorMessage(err)
-            //         });
-            //     } 
-            // });
-    
-            // User.findById(req.user._id,function(err,user){
-            //     if (err) {
-            //         // If an error occurs send the error message
-            //         return res.status(400).send({
-            //             message: getErrorMessage(err)
-            //         });
-            //     } else {
-            //         Photo.find({"creator":req.user._id}).exec(function(err,imgs){
-            //             user.imgs = imgs;
-            //             user.save(function (err) {
-            //                 if (err){
-            //                 return res.status(400).send({
-            //                     message: getErrorMessage(err)
-            //                     });
-            //                 } 
-            //             });
-            //         });
-            //     }
-
-            // });
-    
-            //     res.json({error_code:0,err_desc:null});
-        });
-    },function(filePath,filename,callback){
-
-        var dirpath = process.cwd().replace(/\\/g, "/");
-        var cloudPath = dirpath+'/public/'+filePath;
-
-        var client = box(Token.access_token);
+            upload(req,res,function(err){
+                if(err){
+                        res.json({error_code:1,err_desc:err});
+                        return;
+                }
+                var filePath = req.file.path.replace(/\\/g, "/");
+                filePath = filePath.substring(filePath.indexOf("/") + 1);
+                var img = {
+                    originalname: req.file.originalname,
+                    path:filePath
+                };
+                console.log(filename);
         
-        client.users.get(client.CURRENT_USER_ID, null, function(err, currentUser) {
-            if(err) throw err;
-            console.log('Hello, ');
-        });
-    
-        var stream = fs.createReadStream(cloudPath);
-        console.log(stream);
-        client.files.uploadFile('43260665844', filename, stream, function(err,res){
-            if(err){
-                console.log('err');
-            }else{
-                console.log(res.entries[0].id);
-                callback(null,filePath);
-            }
-        });
-    },
-    function(filePath,callback){
-        fs.unlink('./public/'+ filePath, function(error) {
-            if (error) {
-                throw error;
-            }
-        });
-    }
-]);
-    
+                callback(null,filePath,filename,img);
+            });
+        },
+        function(filePath,filename,img,callback){
+
+            var dirpath = process.cwd().replace(/\\/g, "/");
+            var cloudPath = dirpath+'/public/'+filePath;
+
+            var client = box.init(Token.access_token);
+            
+            client.users.get(client.CURRENT_USER_ID, null, function(err, currentUser) {
+                if(err) throw err;
+                console.log('Hello, ');
+            });
+        
+            var stream = fs.createReadStream(cloudPath);
+            console.log(stream);
+            client.files.uploadFile('43260665844', filename, stream, function(err,res){
+                if(err){
+                    console.log('err');
+                }else{
+                    var cloudPhoId = res.entries[0].id;
+                    console.log(cloudPhoId);
+                    callback(null,filePath,cloudPhoId,img);
+                }
+            });
+        },
+        function(filePath,cloudPhoId,img,callback){
+            fs.unlink('./public/'+ filePath, function(error) {
+                if (error) {
+                    throw error;
+                }
+                callback(null,cloudPhoId,img);
+            });
+        },
+        function(cloudPhoId,img,callback){
+            console.log('last');
+            console.log(cloudPhoId);
+            console.log(img);
+
+        // Create a new photo object
+            var photo = new Photo(img);
+            
+            // Set the photo's 'creator' property
+            photo.creator = req.user;
+            photo.cloudStorageId = cloudPhoId;
+        
+            // Try saving the photo
+            photo.save(function(err) {
+                if (err) {
+                    // If an error occurs send the error message
+                    return res.status(400).send({
+                        message: getErrorMessage(err)
+                    });
+                } 
+            });
+
+            User.findById(req.user._id,function(err,user){
+                if (err) {
+                    // If an error occurs send the error message
+                    return res.status(400).send({
+                        message: getErrorMessage(err)
+                    });
+                } else {
+                    Photo.find({"creator":req.user._id}).exec(function(err,imgs){
+                        user.imgs = imgs;
+                        user.save(function (err) {
+                            if (err){
+                            return res.status(400).send({
+                                message: getErrorMessage(err)
+                                });
+                            } 
+                        });
+                    });
+                }
+            });
+                res.json({error_code:0,err_desc:null});
+        }
+    ]);
 };
 
+
+function getThumbnail(req,res,img,done){
+    var client = box.init(Token.access_token);
+    client.files.getEmbedLink(img.info.cloudStorageId, function(err,data){
+        img.thumbnail = data;
+        if(done){
+            console.log(imgAry);
+            res.jsonp(imgAry);
+        }
+    });
+}
 exports.showphotos = function(req,res){
     Photo.find()
         .sort('-created')
@@ -252,14 +215,24 @@ exports.showphotos = function(req,res){
                 message: getErrorMessage(err)
             });
         } else {
-            var imgs = [];
+            imgAry = [];
+            imgDetail = {
+                info:{},
+                thumbnail:''
+            };
             for(var i=0;i<img.length;i++){
                 if(req.body.id===img[i].creator.id){
-                    imgs.push(img[i]);
+                    imgDetail.info = img[i];
+                    imgAry.push(imgDetail);
                 }
             }
-            
-            res.jsonp(imgs);
+            for(var j=0;j<imgAry.length;j++){
+                if(j===imgAry.length-1){
+                    getThumbnail(req,res,imgAry[j],true);
+                }else{
+                    getThumbnail(req,res,imgAry[j],false);
+                }
+            }
         }
     });
 };

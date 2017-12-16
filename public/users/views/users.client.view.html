@@ -43,9 +43,9 @@
 		
 		<!-- show album -->
 		<div ng-repeat="photo in showphotos.temp">
-			<p>{{photo.originalname}}</p>
-			<a ng-click="cart.addToCart(photo._id)"><img style="width:100px;" ng-src="{{photo.path}}" alt="{{photo.path}}"></a>
-			<a ng-click="photohandler.delete(photo._id)" href="">delete</a>
+			<p>{{photo.info.originalname}}</p>
+			<a ng-click="cart.addToCart(photo.info._id)" href="{{photo.thumbnail}}"><img style="width:100px;" ng-src="{{photo.thumbnail}}" alt="{{photo.thumbnail}}"></a>
+			<a ng-click="photohandler.delete(photo.info._id)" href="">delete</a>
 		</div>
 		<!-- /show album -->
 

@@ -9,17 +9,6 @@ var cloudStorage = require('../controllers/cloudStorage.server.controller');
 router.route('/')
       .get(index.renderindex);
 
-// cloudStorage init
-router.route('/cloud')
-      .get(cloudStorage.boxinit);
-
-router.route('/cloud/redirect')
-      .get(cloudStorage.getToken);
-// /cloudStorage init
-
-router.route('/test')
-      .get(cloudStorage.test);
-
 router.route('/getuser')
       .post(index.getuser); 
 
@@ -48,12 +37,26 @@ router.post('/signout', index.signout);
 
 
 
+// cloudStorage init
+router.route('/cloud')
+      .get(cloudStorage.boxinit);
+
+router.route('/cloud/redirect')
+      .get(cloudStorage.getToken);
+
+router.route('/cloud/refresh')
+      .get(cloudStorage.refreshToken);
+// /cloudStorage init
+
+router.route('/test')
+      .get(cloudStorage.test);
+
 /** API path that will upload the photos */
 router.route('/photos/:id')
-      .post(cloudStorage.deletephoto); 
+      .post(cloudStorage.refreshToken,cloudStorage.deletephoto); 
 
 router.route('/upload')
-      .post(cloudStorage.uploadphotos);
+      .post(cloudStorage.refreshToken,cloudStorage.uploadphotos);
 
 router.route('/showphotos')
       .post(cloudStorage.showphotos);

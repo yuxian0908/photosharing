@@ -8,6 +8,7 @@ var PhotoSchema = new Schema({
 	},
     originalname: String,
     path: String,
+    cloudStorageId: String,
 	creator: {
 		type: Schema.ObjectId,
 		ref: 'User'

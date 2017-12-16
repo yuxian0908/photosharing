@@ -6,7 +6,6 @@ var mongoose = require('mongoose'),
     fs = require('fs'),
     multer = require('multer'),
     Album = require('mongoose').model('Album'),
-    box = require('../../config/box')(),
     request = require('request'),
     config = require('../../config/config'),
     async =  require('async');

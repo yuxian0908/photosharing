@@ -1,27 +1,63 @@
 // Initialize SDK
 var	config = require('./config'),
+    request = require('request'),
     BoxSDK = require('box-node-sdk');
 
-module.exports = function(Token) {
-    var sdk = new BoxSDK({
-        clientID: config.cloudStorage.clientID,
-        clientSecret: config.cloudStorage.clientSecret
-    });
-      
-    // Create a basic API client
-    // var client = sdk.getAnonymousClient();
-    var client = sdk.getBasicClient(Token);
+module.exports = {
+    init:function(Token) {
+        var sdk = new BoxSDK({
+            clientID: config.cloudStorage.clientID,
+            clientSecret: config.cloudStorage.clientSecret
+        });
+        var client = sdk.getBasicClient(Token);
+        return client;
+    },
+    getToken: function(code,callback){
+        var token = {
+            grant_type: "authorization_code",
+            code: code,
+            client_id: config.cloudStorage.clientID,
+            client_secret: config.cloudStorage.clientSecret,
+            redirect_uri:config.cloudStorage.redirect_uri2
+        };
     
-    // // Get some of that sweet, sweet data!
-    // client.users.get(client.CURRENT_USER_ID, null, function(err, currentUser) {
-    // if(err) throw err;
-    // console.log('Hello, ' + currentUser.name + '!');
-    // });
-    
-    // // The SDK also supports Promises
-    // client.users.get(client.CURRENT_USER_ID)
-    //     .then(user => console.log('Hello', user.name, '!'))
-    //     .catch(err => console.log('Got an error!', err));
-
-    return client;
+        request.post('https://api.box.com/oauth2/token',{form:token},
+        function(err,httpResponse,body){
+            if(err){
+                console.log("err");
+                if(callback){
+                    callback(err,null);
+                }
+            }else{
+                var token = JSON.parse(body);
+                if(callback){
+                    callback(null,token);
+                }
+                return token;
+            }
+        });
+    },
+    refreshToken: function(refreshkey,callback){
+        var token = {
+            grant_type: "refresh_token",
+            refresh_token: refreshkey.refresh_token,
+            client_id: config.cloudStorage.clientID,
+            client_secret: config.cloudStorage.clientSecret
+        };
+        request.post('https://api.box.com/oauth2/token',{form:token},
+        function(err,httpResponse,body){
+            if(err){
+                console.log("err");
+                if(callback){
+                    callback(err,null);
+                }
+            }else{
+                var token = JSON.parse(body);
+                if(callback){
+                    callback(null,token);
+                }
+                return token;
+            }
+        });
+    }
 };
