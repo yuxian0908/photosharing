@@ -192,10 +192,11 @@ exports.uploadphotos = function(req,res){
 function getThumbnail(req,res,img,done){
     var client = box.init(Token.access_token);
     client.files.getEmbedLink(img.info.cloudStorageId, function(err,data){
+        console.log(img.info);
         img.thumbnail = data;
         if(done){
             console.log(imgAry);
-            res.jsonp(imgAry);
+            // res.jsonp(imgAry);
         }
     });
 }
@@ -218,17 +219,51 @@ exports.showphotos = function(req,res){
             };
             for(var i=0;i<img.length;i++){
                 if(req.body.id===img[i].creator.id){
+                    imgDetail = {
+                        info:{},
+                        thumbnail:''
+                    };
                     imgDetail.info = img[i];
+                    console.log(i);
+                    console.log(imgDetail.info);
                     imgAry.push(imgDetail);
                 }
             }
-            for(var j=0;j<imgAry.length;j++){
-                if(j===imgAry.length-1){
-                    getThumbnail(req,res,imgAry[j],true);
-                }else{
-                    getThumbnail(req,res,imgAry[j],false);
+            // for(var j=0;j<imgAry.length;j++){
+            //     if(j===imgAry.length-1){
+            //         getThumbnail(req,res,imgAry[j],true);
+            //     }else{
+            //         getThumbnail(req,res,imgAry[j],false);
+            //     }
+            // }
+            
+           
+            (function uploader(i) {
+                var client = box.init(Token.access_token);
+                if( i < imgAry.length ) {
+                    if(i===imgAry.length-1){
+                        client.files.getEmbedLink(imgAry[i].info.cloudStorageId, function(err,data){
+                            imgAry[i].thumbnail = data;
+                            console.log(imgAry);
+                            res.jsonp(imgAry);
+                        });
+                    }else{
+                        client.files.getEmbedLink(imgAry[i].info.cloudStorageId, function(err,data){
+                            imgAry[i].thumbnail = data;
+                            uploader(i+1);
+                        });
+                    }
                 }
-            }
+            })(0);
+            // while(count<imgAry.length){
+            //     console.log(count);
+            //     if(count===imgAry.length-1){
+            //         getThumbnail(req,res,imgAry[count],true);
+            //     }else{
+            //         getThumbnail(req,res,imgAry[count],false);
+            //     }
+            //     count++;
+            // }
         }
     });
 };
