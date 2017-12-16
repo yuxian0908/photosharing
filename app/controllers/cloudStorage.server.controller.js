@@ -71,10 +71,6 @@ exports.refreshToken = function(req, res, next){
     });
 };
 
-exports.test = function(req, res){
-    console.log(imgAry);
-};
-
 // 用戶主頁照片
 exports.uploadphotos = function(req,res){
     async.waterfall([
@@ -237,7 +233,15 @@ exports.showphotos = function(req,res){
     });
 };
 
+exports.test = function(req,res){
+    var client = box.init(Token.access_token);
+    client.files.delete('256620995848', function(err,data){
+        console.log('deleted');
+    });
+};
+
 function deleteCloudImg(img){
+    console.log(img);
     var client = box.init(Token.access_token);
     client.files.delete(img, function(err,data){
         console.log('deleted');
@@ -254,7 +258,8 @@ exports.deletephoto = function(req,res){
                     message: getErrorMessage(err)
                 });
             } else {
-                deleteCloudImg(photo.cloudPhoId);
+                console.log(photo);
+                deleteCloudImg(photo.cloudStorageId);
                 photo.remove(function(err){
                     if (err) return handleError(err);
                     console.log('removed');

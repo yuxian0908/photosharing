@@ -173,14 +173,10 @@ angular.module('users').controller('UsersController',
 					photoid : photo
 				};
 				$http.post('api/photos/'+ photo,photoquery).then(function (res){
-					console.log(res.data);
-					console.log($scope.showphotos.temp);
 					for(var i=0;i<$scope.showphotos.temp.length;i++){
 						if ($scope.showphotos.temp[i].info._id===res.data._id) {
 							$scope.showphotos.temp.splice(i,1);
 						}
-						console.log(i);
-
 					}
 					// window.location.reload('/');
 					// $location.path('/');
