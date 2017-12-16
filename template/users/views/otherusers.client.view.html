@@ -40,11 +40,13 @@
         </div>
         
 		<div ng-repeat="photo in showphotos.temp">
-            <p>{{photo.originalname}}</p>
-            <a ng-click="cart.addToCart(photo._id)">
-                <img style="width:100px;" ng-src="{{photo.path}}" alt="{{photo.path}}">
-            </a>
-            <a ng-click="photohandler.delete(photo._id)" data-ng-show="authentication.user._id===otheruser._id" href="">delete</a>
+            <a ng-click="cart.addToCart(photo)" href="{{photo.thumbnail}}">
+				<p>{{photo.info.originalname}}</p>
+			</a>
+			<iframe ng-src="{{photo.thumbnail | trusted}}" 
+			frameborder="1" scrolling="yes" style="height:300px"></iframe>
+			
+            <a ng-click="photohandler.delete(photo.info._id)" data-ng-show="authentication.user._id===otheruser._id" href="">delete</a>
         </div>
     </div>
 		<!-- /show album -->

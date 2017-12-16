@@ -40,7 +40,9 @@ exports.returnCart = function(req,res){
 exports.submitCart = function(req,res){
     var cart = req.session.cart.items;
     var album = new Album();
-    album.img = cart;
+    for(var i=0;i<cart.length;i++){
+        album.img.push(cart.info);
+    }
     album.owner = req.user;
     album.name = req.body.albumname;
     album.save(function(err) {
