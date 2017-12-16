@@ -195,11 +195,9 @@ angular.module('users').controller('UsersController',
 					$scope.error = errorResponse.data.message;
 				});
 			},
-			addToCart : function(id){
-				var photoid = {
-					photoid : id
-				};
-				$http.post('api/addToCart',photoid).then(function (res){
+			addToCart : function(photo){
+				$http.post('api/addToCart',photo).then(function (res){
+					console.log(res.data.items);
 					$scope.cart.items = res.data.items;
 				},function (error){
 					$scope.error = errorResponse.data.message;

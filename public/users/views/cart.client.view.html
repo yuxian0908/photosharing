@@ -15,9 +15,10 @@
         <a ng-click="cart.submitCart()" href="">加進相簿</a>
 		<!-- show album -->
 		<div ng-repeat="photo in cart.items track by $index">
-            <p>{{photo.originalname}}</p>
-            <img style="width:100px;" ng-src="{{photo.path}}" alt="{{photo.path}}">
-			<a ng-click="cart.deleteFromCart(photo._id)" href="">delete from cart</a>
+            <p>{{photo.info.originalname}}</p>
+        	<iframe ng-src="{{photo.thumbnail | trusted}}" 
+			frameborder="1" scrolling="yes" style="height:300px"></iframe>
+			<a ng-click="cart.deleteFromCart(photo.info._id)" href="">delete from cart</a>
 		</div>
 		<!-- /show album -->
 	</div>

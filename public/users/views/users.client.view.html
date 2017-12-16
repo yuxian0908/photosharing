@@ -37,13 +37,13 @@
 
 		<!-- cart -->
 		<div ng-repeat="photo in cart.items track by $index">
-			<p>{{photo.originalname}}</p>
+			<p>{{photo.info.originalname}}</p>
 		</div>
 		<!-- /cart -->
 		
 		<!-- show album -->
 		<div ng-repeat="photo in showphotos.temp">
-			<a ng-click="cart.addToCart(photo.info._id)" href="{{photo.thumbnail}}">
+			<a ng-click="cart.addToCart(photo)" href="{{photo.thumbnail}}">
 				<p>{{photo.info.originalname}}</p>
 			</a>
 			<iframe ng-src="{{photo.thumbnail | trusted}}" 

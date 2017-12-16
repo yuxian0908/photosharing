@@ -7,30 +7,19 @@ Album = require('mongoose').model('Album');
 
 function findAndaddPhoto(pho,req,res,next){
     var cart = req.session.cart || (req.session.cart = { items: [] });
-    Photo.find({'_id':pho})
-        .exec(function(err,photo){
-            if (err) {
-                // If an error occurs send the error message
-                console.log("some error happened");
-                return res.status(400).send({
-                    message: getErrorMessage(err)
-                });
-            } else {
-                console.log(photo[0]);
-                cart.items.push(photo[0]);
-                next();
-            }
-        });
+    cart.items.push(pho);
+    console.log(cart);
+    next();
 }
 
 exports.addToCart = function(req,res,next){
-    findAndaddPhoto(req.body.photoid, req, res, next);
+    findAndaddPhoto(req.body, req, res, next);
 };
 
 function findAnddeletePhoto(pho,req,res,next){
     var cart = req.session.cart ;
     for(var i=0;i<cart.items.length;i++){
-        if(pho===cart.items[i]._id){
+        if(pho===cart.items[i].info._id){
             cart.items.splice(i,1);
             req.session.cart = cart;
             next();
