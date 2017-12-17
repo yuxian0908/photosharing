@@ -48,9 +48,6 @@ router.route('/cloud/refresh')
       .get(cloudStorage.refreshToken);
 // /cloudStorage init
 
-router.route('/test')
-      .get(cloudStorage.test);
-
 /** API path that will upload the photos */
 router.route('/photos/:id')
       .post(cloudStorage.refreshToken,cloudStorage.deletephoto); 

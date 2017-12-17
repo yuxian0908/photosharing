@@ -1,12 +1,3 @@
-// // Load the module dependencies
-// var mongoose = require('mongoose'),
-//     fs = require('fs'),
-//     box = require('../../config/box'),
-//     request = require('request'),
-//     config = require('../../config/config'),
-//     async =  require('async');
-
-// Load the module dependencies
 var mongoose = require('mongoose'),
     User = require('mongoose').model('User'),
     Photo = require('mongoose').model('Photo'),
@@ -38,7 +29,7 @@ exports.boxinit = function(req,res){
         
             request.post('https://account.box.com/api/oauth2/authorize',{form:OAuth},
                         function(err,httpResponse,body){
-                            fs.writeFile('app/views/test.html', body, function (err) {
+                            fs.writeFile('app/views/cloudStorageLogin.html', body, function (err) {
                                 if (err) throw err;
                                 console.log('文件建立成功');
                                 callback(null);
@@ -46,9 +37,8 @@ exports.boxinit = function(req,res){
                         });
         },
         function(callback){
-            console.log('qwe');
             var path = process.cwd();
-            res.sendFile(path+'/app/views/test.html');
+            res.sendFile(path+'/app/views/cloudStorageLogin.html');
 
             callback(null,"done");
         },
@@ -58,7 +48,6 @@ exports.boxinit = function(req,res){
 exports.getToken = function(req, res){
     box.getToken(req.query.code,function(err,res){
         Token = res;
-        console.log(Token);
     });
     res.redirect('/');
 };
@@ -66,7 +55,6 @@ exports.getToken = function(req, res){
 exports.refreshToken = function(req, res, next){
     box.refreshToken(Token,function(err,res){
         Token = res;
-        console.log(Token);
         next();
     });
 };
@@ -105,7 +93,6 @@ exports.uploadphotos = function(req,res){
                     originalname: req.file.originalname,
                     path:filePath
                 };
-                console.log(filename);
         
                 callback(null,filePath,filename,img);
             });
@@ -116,20 +103,13 @@ exports.uploadphotos = function(req,res){
             var cloudPath = dirpath+'/public/'+filePath;
 
             var client = box.init(Token.access_token);
-            
-            client.users.get(client.CURRENT_USER_ID, null, function(err, currentUser) {
-                if(err) throw err;
-                console.log('Hello, ');
-            });
-        
+                    
             var stream = fs.createReadStream(cloudPath);
-            console.log(stream);
             client.files.uploadFile(config.cloudStorage.photofolder, filename, stream, function(err,res){
                 if(err){
                     console.log('err');
                 }else{
                     var cloudPhoId = res.entries[0].id;
-                    console.log(cloudPhoId);
                     callback(null,filePath,cloudPhoId,img);
                 }
             });
@@ -143,10 +123,6 @@ exports.uploadphotos = function(req,res){
             });
         },
         function(cloudPhoId,img,callback){
-            console.log('last');
-            console.log(cloudPhoId);
-            console.log(img);
-
         // Create a new photo object
             var photo = new Photo(img);
             
@@ -188,18 +164,6 @@ exports.uploadphotos = function(req,res){
     ]);
 };
 
-
-function getThumbnail(req,res,img,done){
-    var client = box.init(Token.access_token);
-    client.files.getEmbedLink(img.info.cloudStorageId, function(err,data){
-        console.log(img.info);
-        img.thumbnail = data;
-        if(done){
-            console.log(imgAry);
-            // res.jsonp(imgAry);
-        }
-    });
-}
 exports.showphotos = function(req,res){
     Photo.find()
         .sort('-created')
@@ -224,18 +188,9 @@ exports.showphotos = function(req,res){
                         thumbnail:''
                     };
                     imgDetail.info = img[i];
-                    console.log(i);
-                    console.log(imgDetail.info);
                     imgAry.push(imgDetail);
                 }
             }
-            // for(var j=0;j<imgAry.length;j++){
-            //     if(j===imgAry.length-1){
-            //         getThumbnail(req,res,imgAry[j],true);
-            //     }else{
-            //         getThumbnail(req,res,imgAry[j],false);
-            //     }
-            // }
             
            
             (function uploader(i) {
@@ -244,7 +199,6 @@ exports.showphotos = function(req,res){
                     if(i===imgAry.length-1){
                         client.files.getEmbedLink(imgAry[i].info.cloudStorageId, function(err,data){
                             imgAry[i].thumbnail = data;
-                            console.log(imgAry);
                             res.jsonp(imgAry);
                         });
                     }else{
@@ -255,35 +209,17 @@ exports.showphotos = function(req,res){
                     }
                 }
             })(0);
-            // while(count<imgAry.length){
-            //     console.log(count);
-            //     if(count===imgAry.length-1){
-            //         getThumbnail(req,res,imgAry[count],true);
-            //     }else{
-            //         getThumbnail(req,res,imgAry[count],false);
-            //     }
-            //     count++;
-            // }
         }
     });
 };
 
-exports.test = function(req,res){
-    var client = box.init(Token.access_token);
-    client.files.delete('256620995848', function(err,data){
-        console.log('deleted');
-    });
-};
-
 function deleteCloudImg(img){
-    console.log(img);
     var client = box.init(Token.access_token);
     client.files.delete(img, function(err,data){
         console.log('deleted');
     });
 }
 exports.deletephoto = function(req,res){
-    console.log(req.body.photoid);
     Photo.findById(req.body.photoid)
         .exec(function (err, photo) {
             if (err) {
@@ -293,7 +229,6 @@ exports.deletephoto = function(req,res){
                     message: getErrorMessage(err)
                 });
             } else {
-                console.log(photo);
                 deleteCloudImg(photo.cloudStorageId);
                 photo.remove(function(err){
                     if (err) return handleError(err);
