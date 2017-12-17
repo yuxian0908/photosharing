@@ -6,9 +6,9 @@ module.exports = {
 	cloudStorage: {
 		photofolder:'43341632199',
 		state: 'MyYuxianWebsite',
-		clientID: 'mze26rnupvitiyo9g9j2xamrx78e8gwo',
-		clientSecret: 'NofcjyrNTIDMGL4WUaGO5nRGeen38m3H',
-		redirect_uri: 'http://localhost:3000/cloud/redirect',
-		redirect_uri2:'http://localhost:3000/cloud/redirect2',
+		clientID: 'fxqgv6j3jhaw8ojcru516o4syzrc0hoj',
+		clientSecret: 'z6WJz4b3bMOylAT5BWD892OEc1E1n5aW',
+		redirect_uri: 'https://yuxian-photosharing.herokuapp.com/cloud/redirect',
+		redirect_uri2:'https://yuxian-photosharing.herokuapp.com/cloud/redirect2',
 	},
 };
