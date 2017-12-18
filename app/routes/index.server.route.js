@@ -56,7 +56,7 @@ router.route('/upload')
       .post(cloudStorage.refreshToken,cloudStorage.uploadphotos);
 
 router.route('/showphotos')
-      .post(cloudStorage.showphotos);
+      .post(cloudStorage.refreshToken,cloudStorage.showphotos);
 
 
 // 購物車功能
