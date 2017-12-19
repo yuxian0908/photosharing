@@ -62,7 +62,7 @@ router.route('/showphotos')
 // 購物車功能
 router.route('/addToCart')
       .post(cart.addToCart,cart.returnCart)
-      .get(cart.returnCart);
+      .get(cloudStorage.refreshToken,cloudStorage.showCartPhotos,cart.returnCart);
 
 router.route('/deleteFromCart')
       .post(cart.deleteFromCart,cart.returnCart);

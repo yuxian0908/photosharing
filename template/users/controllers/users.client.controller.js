@@ -239,6 +239,7 @@ angular.module('users').controller('UsersController',
 				});
 			},
 			showphotos : function(nth){
+				console.log($scope.albumpage.albums[nth].img);
 				$scope.albumpage.imgs = $scope.albumpage.albums[nth].img;
 			},
 			deleteAlbum : function(nth){

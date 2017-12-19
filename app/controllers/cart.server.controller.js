@@ -41,10 +41,11 @@ exports.submitCart = function(req,res){
     var cart = req.session.cart.items;
     var album = new Album();
     for(var i=0;i<cart.length;i++){
-        album.img.push(cart.info);
+        album.img.push(cart[i].info);
     }
     album.owner = req.user;
     album.name = req.body.albumname;
+    console.log(album);
     album.save(function(err) {
         if (err) {
             console.log('error');

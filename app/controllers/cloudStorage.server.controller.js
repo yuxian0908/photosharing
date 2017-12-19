@@ -55,6 +55,7 @@ exports.getToken = function(req, res){
 exports.refreshToken = function(req, res, next){
     box.refreshToken(Token,function(err,res){
         Token = res;
+        console.log(Token);
         next();
     });
 };
@@ -239,3 +240,25 @@ exports.deletephoto = function(req,res){
         });
 };
 // /用戶主頁照片
+
+exports.showCartPhotos = function(req,res,next){
+    var cart = req.session.cart.items;
+    (function uploader(i) {
+        var client = box.init(Token.access_token);
+        if( i < cart.length ) {
+            if(i===cart.length-1){
+                client.files.getEmbedLink(cart[i].info.cloudStorageId, function(err,data){
+                    cart[i].thumbnail = data;
+                    req.session.cart.items = cart;
+                    next();
+                    // res.jsonp(cart);
+                });
+            }else{
+                client.files.getEmbedLink(cart[i].info.cloudStorageId, function(err,data){
+                    cart[i].thumbnail = data;
+                    uploader(i+1);
+                });
+            }
+        }
+    })(0);
+};
