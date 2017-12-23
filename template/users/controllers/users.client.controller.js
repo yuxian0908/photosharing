@@ -62,7 +62,8 @@ angular.module('users').controller('UsersController',
             $http.post('api/signup',users).then(function (success){
 				window.location.reload("/");
 				$location.path('/');
-			},function (error){
+			},function (err){
+				alert('註冊失敗');
 				$scope.error = errorResponse.data.message;
 			});
 		};
